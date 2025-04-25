@@ -505,7 +505,7 @@ function updateXPDisplay(additionalXP) {
      if (progressBar) progressBar.style.width = `${progressPercent}%`;
 
     // Check for badge earning (example: badge at 200 XP)
-    if (totalXP >= 200 && !document.querySelector('.badge-earned')) {
+    if (totalXP >= 30 && !document.querySelector('.badge-earned')) {
         // Check if the badge was already earned in this session to avoid duplicates
         if (!sessionStorage.getItem('badgeEarned-200XP')) {
             showBadge('First Amendment Advocate', 'You\'ve mastered the freedoms of the First Amendment.', '🎯');
