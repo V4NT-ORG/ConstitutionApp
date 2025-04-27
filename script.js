@@ -93,6 +93,24 @@ document.addEventListener('DOMContentLoaded', () => {
         amendmentCard.appendChild(subtitleElement);
     }
     
+    // Create story section if it exists
+    if (data.story) {
+        const storyContainer = document.createElement('div');
+        storyContainer.className = 'amendment-story';
+        storyContainer.id = 'amendment-story';
+        
+        const storyIcon = document.createElement('i');
+        storyIcon.className = 'fas fa-book-open story-icon';
+        storyIcon.setAttribute('aria-hidden', 'true');
+        storyContainer.appendChild(storyIcon);
+        
+        const storyText = document.createElement('p');
+        storyText.textContent = data.story;
+        storyContainer.appendChild(storyText);
+        
+        amendmentCard.appendChild(storyContainer);
+    }
+    
     // Create description if it exists
     if (data.description && data.description.length > 0) {
         const descriptionContainer = document.createElement('div');
@@ -164,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         amendmentCard.appendChild(infographicContainer);
     }
     
-    // Create key points if they exist
+    // Create key points if they exist - non-collapsible version
     if (data.keyPoints && data.keyPoints.length > 0) {
         const titleElement = document.createElement('h3');
         titleElement.textContent = 'Notes:';
@@ -173,16 +191,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const keyPointsContainer = document.createElement('div');
         keyPointsContainer.id = 'key-points';
         
-        data.keyPoints.forEach(kp => {
-            const p = document.createElement('p');
-            // Escape single quotes within the text for the onclick attribute
-            const escapedText = kp.text.replace(/'/g, "\\'");
-            p.innerHTML = `<span class="key-point" onclick="showInfo('${kp.id}', '${escapedText}')">${kp.title}</span>`;
-            const div = document.createElement('div');
-            div.id = kp.id;
-            div.className = 'info-display';
-            keyPointsContainer.appendChild(p);
-            keyPointsContainer.appendChild(div);
+    data.keyPoints.forEach(kp => {
+        const noteBox = document.createElement('div');
+        noteBox.className = 'note-box warning';
+        
+        const noteTitle = document.createElement('div');
+        noteTitle.className = 'note-title warning';
+        noteTitle.textContent = kp.title;
+        
+        const noteContent = document.createElement('div');
+        noteContent.className = 'note-content warning';
+        noteContent.innerHTML = kp.text;
+            
+            noteBox.appendChild(noteTitle);
+            noteBox.appendChild(noteContent);
+            keyPointsContainer.appendChild(noteBox);
         });
         
         amendmentCard.appendChild(keyPointsContainer);

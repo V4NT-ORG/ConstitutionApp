@@ -79,12 +79,12 @@ body {
     font-weight: 600;
     margin-top: 10px;
     letter-spacing: 1px;
-    font-size: 16px;
+    font-size: 17px;
     opacity: 0.9;
 }
 
 .container {
-    width: 95%; /* Adjusted for wider view */
+    width: 70%; /* Adjusted for wider view */
     max-width: 900px;
     margin: 30px auto;
     background: white;
@@ -123,6 +123,59 @@ h3 {
     margin-top: 30px;
     margin-bottom: 15px;
     font-size: 1.4rem;
+}
+
+/* Amendment Story Section */
+.amendment-story {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    background: linear-gradient(to right, rgba(252, 163, 17, 0.15), rgba(252, 163, 17, 0.3));
+    padding: 35px 30px 30px 80px;
+    border-radius: var(--border-radius);
+    margin: 35px 0 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-left: 6px solid var(--secondary-color);
+    position: relative;
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.amendment-story:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.amendment-story::before {
+    content: "";
+    font-size: 80px;
+    font-family: Georgia, serif;
+    position: absolute;
+    left: 20px;
+    top: 5px;
+    color: rgba(230, 57, 70, 0.3);
+    line-height: 1;
+}
+
+.amendment-story p {
+    margin: 0;
+    font-style: italic;
+    color: var(--primary-color);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.story-icon {
+    position: absolute;
+    left: 20px;
+    top: 35px;
+    font-size: 24px;
+    color: var(--secondary-color);
+    background: rgba(255, 255, 255, 0.7);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 45px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 .full-text {
@@ -329,7 +382,7 @@ h3 {
 
 .quiz-question {
     margin-bottom: 15px;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .quiz-options label {
@@ -343,7 +396,7 @@ h3 {
     border-left: 2px solid transparent;
     font-weight: 400;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .quiz-options label:hover {
@@ -421,6 +474,84 @@ h3 {
     border-top: 1px solid #e9ecef;
 }
 
+/* New Notes Section Styling */
+#key-points {
+    margin: 30px 0;
+}
+
+.note-box {
+    margin-bottom: 30px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.note-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.note-box.warning {
+    border: 2px solid var(--secondary-color);
+    background: linear-gradient(to right, rgba(230, 57, 70, 0.05), rgba(230, 57, 70, 0.1));
+    position: relative;
+}
+
+.note-title {
+    background: #f0f5ff;
+    color: var(--primary-color);
+    font-weight: 600;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.note-title.warning {
+    background: rgba(230, 57, 70, 0.15);
+    color: var(--secondary-color);
+    border-left: 4px solid var(--secondary-color);
+    position: relative;
+    padding-left: 50px;
+}
+
+.note-title.warning::before {
+    content: "!";
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--secondary-color);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    box-shadow: 0 2px 5px rgba(230, 57, 70, 0.4);
+}
+
+.note-content {
+    padding: 20px 25px;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--dark-text);
+    background: white;
+    font-weight: 500;
+}
+
+.note-content.warning {
+    background: rgba(255, 255, 255, 0.9);
+    border-top: 1px solid rgba(230, 57, 70, 0.2);
+}
+
+/* Original key-point styling kept for backwards compatibility */
 .key-point {
     cursor: pointer;
     color: var(--primary-color);
@@ -463,7 +594,7 @@ h3 {
     display: none; /* Initially hidden */
     animation: fadeIn 0.5s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .quiz-results {
@@ -530,31 +661,69 @@ strong {
     box-shadow: 0 0 0 3px rgba(20, 33, 61, 0.1);
 }
 
-/* Styling for details/summary elements in Plain-English Summary section */
-details {
-    margin-bottom: 12px;
-}
-
-summary {
-    cursor: pointer;
-    color: var(--primary-color);
-    font-weight: 600;
-    padding: 10px 15px;
+/* Enhanced styling for the Plain Summary section */
+.plain-summary-container {
+    background: linear-gradient(to right, #f7f9fc, #edf2f7);
     border-radius: var(--border-radius);
-    background: rgba(20, 33, 61, 0.05);
-    transition: var(--transition);
-    display: block;
-    margin: 5px 0;
-    border-left: 3px solid var(--primary-color);
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    margin: 30px 0;
+    border-top: 5px solid var(--accent-color);
+}
+
+.plain-summary-title {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    padding-bottom: 15px;
+    border-bottom: 2px dashed rgba(20, 33, 61, 0.2);
+}
+
+/* Styling for details/summary elements in Plain-English Summary section */
+.amendment-detail {
+    margin-bottom: 15px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.amendment-detail:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.amendment-detail summary {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
     position: relative;
+    outline: none;
 }
 
-summary:hover {
-    background: rgba(20, 33, 61, 0.1);
-    transform: translateX(5px);
+.amendment-detail summary::-webkit-details-marker {
+    display: none;
 }
 
-summary:after {
+.amendment-detail summary i {
+    margin-right: 12px;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(252, 163, 17, 0.15);
+    color: var(--primary-color);
+}
+
+.amendment-detail summary:after {
     content: '+';
     font-size: 1.2rem;
     position: absolute;
@@ -562,20 +731,96 @@ summary:after {
     top: 50%;
     transform: translateY(-50%);
     transition: var(--transition);
+    width: 30px;
+    height: 30px;
+    background: rgba(20, 33, 61, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-details[open] summary:after {
+.amendment-detail[open] summary:after {
     content: '−';
+    background: rgba(20, 33, 61, 0.1);
 }
 
-details > p {
-    padding: 10px 15px 10px 20px;
-    margin: 0;
+.detail-content {
+    padding: 5px 15px 15px 65px;
     background: white;
-    border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    margin-top: 2px;
-    margin-left: 3px;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.detail-content p {
+    display: flex;
+    align-items: flex-start;
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+.detail-content p i {
+    margin-right: 10px;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.detail-content .fa-check-circle {
+    color: var(--success-color);
+}
+
+.detail-content .fa-exclamation-circle {
+    color: var(--secondary-color);
+}
+
+.detail-content .fa-info-circle {
+    color: var(--accent-color);
+}
+
+/* Specific styling for different amendment types */
+.religion-detail summary {
+    border-left: 5px solid #9c27b0; /* Purple for religion */
+}
+
+.speech-detail summary {
+    border-left: 5px solid #2196f3; /* Blue for speech */
+}
+
+.press-detail summary {
+    border-left: 5px solid #4caf50; /* Green for press */
+}
+
+.assembly-detail summary {
+    border-left: 5px solid #ff9800; /* Orange for assembly */
+}
+
+.petition-detail summary {
+    border-left: 5px solid #f44336; /* Red for petition */
+}
+
+/* Color the icons differently for each category */
+.religion-detail summary i {
+    background: rgba(156, 39, 176, 0.15);
+    color: #9c27b0;
+}
+
+.speech-detail summary i {
+    background: rgba(33, 150, 243, 0.15);
+    color: #2196f3;
+}
+
+.press-detail summary i {
+    background: rgba(76, 175, 80, 0.15);
+    color: #4caf50;
+}
+
+.assembly-detail summary i {
+    background: rgba(255, 152, 0, 0.15);
+    color: #ff9800;
+}
+
+.petition-detail summary i {
+    background: rgba(244, 67, 54, 0.15);
+    color: #f44336;
 }
 
 /* Responsive improvements */
