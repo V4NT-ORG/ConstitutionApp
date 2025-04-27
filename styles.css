@@ -178,6 +178,29 @@ h3 {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
+.amendment-story-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    max-height: 600px; /* Added max-height to reduce image height */
+    margin: 0 auto 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    object-fit: contain; /* Ensures the image maintains its aspect ratio */
+}
+
+.amendment-story-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 768px) {
+    .amendment-story-image {
+        max-width: 80%;
+    }
+}
+
 .full-text {
     font-style: italic;
     font-size: 1.1rem;

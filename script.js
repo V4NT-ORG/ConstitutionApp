@@ -104,6 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
         storyIcon.setAttribute('aria-hidden', 'true');
         storyContainer.appendChild(storyIcon);
         
+        // Add image to the story section
+        const storyImage = document.createElement('img');
+        storyImage.src = `images/amendment${amendmentNumber}.jpg`;
+        storyImage.alt = `Amendment ${amendmentNumber} illustration`;
+        storyImage.className = 'amendment-story-image';
+        storyContainer.appendChild(storyImage);
+        
         const storyText = document.createElement('p');
         storyText.textContent = data.story;
         storyContainer.appendChild(storyText);
@@ -279,7 +286,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const label = document.createElement('label');
                     // Ensure unique IDs for inputs if needed, though name grouping handles selection
                     label.innerHTML = `<input type="radio" name="${qData.q}" value="${opt.value}"> ${opt.text}`;
+                    // Style to display each option on a new line and make the bubble properly enclose the text
+                    label.style.display = 'inline-block'; // Changed from block to inline-block
+                    label.style.marginBottom = '8px'; // Add spacing between options
+                    label.style.width = 'auto'; // Allow width to fit content
+                    label.style.minWidth = '25%'; // Set minimum width for very short answers
                     optionsDiv.appendChild(label);
+                    // Add a line break after each label to ensure each appears on a new line
+                    optionsDiv.appendChild(document.createElement('br'));
                 });
                 questionDiv.appendChild(optionsDiv);
                 quizQuestionsContainer.appendChild(questionDiv);

@@ -1,54 +1,75 @@
-# Constitution Amendment Template System
+# Constitution Explorer
 
-This system allows you to make styling and structure changes in one central location instead of modifying each amendment file individually.
+An interactive web application for exploring and learning about the United States Constitution and its amendments.
 
-## How It Works
+## Project Structure
 
-1. **template.html**: The base template for all amendment pages
-2. **styles.css**: Central stylesheet with all styling definitions
-3. **loader.js**: Handles loading the appropriate amendment based on URL parameters
-4. **script.js**: Contains the logic for populating content and handling interactions
-5. **amendment_data.js**: Contains the content for all amendments
+This project is a client-side web application built with HTML, CSS, and JavaScript. Here's an overview of each file's purpose:
 
-## How to View Amendments
+### Core Files
 
-To view an amendment, open the template.html file with an amendment parameter:
+- **index.html**: Main landing page that displays a list of amendments users can explore.
+  - Provides an introduction to the application
+  - Shows amendment cards that link to detailed content
+  - Contains styling for the home page
 
-- Amendment 1: `template.html?amendment=1`
-- Amendment 2: `template.html?amendment=2`
-- Amendment 3: `template.html?amendment=3`
-- etc.
+- **template.html**: Template used for displaying individual amendment details.
+  - Serves as the container for dynamically loaded amendment content
+  - Contains sections for amendment explanation, quizzes, scenarios, and reflection prompts
+  - Uses a modular design that adapts based on available data
 
-## Making Changes
+- **script.js**: Main JavaScript file containing application logic.
+  - Renders amendment content dynamically based on the loaded data
+  - Manages user interaction with quizzes, scenarios, and reflection activities
+  - Handles XP/level tracking and progress persistence
+  - Contains functionality for feedback and achievements
 
-### To Change Styles
+- **loader.js**: Loads specific amendment data based on URL parameters.
+  - Parses the URL to determine which amendment to display
+  - Sets the appropriate data attribute on the body element
+  - Initializes amendment-specific functionality
+  - Handles errors if amendment data isn't found
 
-1. Edit the **styles.css** file to update colors, fonts, spacing, or any other visual properties.
-2. All amendment pages will automatically inherit these changes.
+- **amendment_data.js**: Contains structured data for each amendment.
+  - Stores detailed content in a JavaScript object
+  - Includes text, descriptions, historical context, and plain language summaries
+  - Contains interactive elements like quizzes, scenarios, and reflection prompts
+  - Maintains navigation links between amendments
 
-### To Change Structure
+- **styles.css**: Contains all styling for the application.
+  - Defines the visual appearance of all components
+  - Uses CSS variables for consistent theming
+  - Includes responsive design for different screen sizes
+  - Contains animations and interactive effects
 
-1. Edit the **template.html** file to update the HTML structure.
-2. All amendment pages will automatically reflect these structural changes.
+### Assets
 
-### To Change Content
+- **images/**: Directory containing image assets for the application.
+  - Stores amendment-related images and icons
+  - Contains visual elements used throughout the application
 
-1. Edit the **amendment_data.js** file to update the content for specific amendments.
+## How The Application Works
 
-### To Change Functionality
+1. The user starts at the home page (`index.html`) which lists the amendments to explore.
+2. When a user selects an amendment, they are directed to `template.html` with an amendment parameter (e.g., `template.html?amendment=1`).
+3. `loader.js` reads this parameter and sets the appropriate data attribute on the body.
+4. `script.js` uses this data attribute to identify which amendment to display and loads the corresponding data from `amendment_data.js`.
+5. The template is then populated with the amendment's content, including interactive elements.
+6. As users interact with quizzes, scenarios, and reflections, they earn XP, which is tracked and persisted using local storage.
 
-1. Edit the **script.js** file to update the interactive features.
+## Interactive Features
 
-## Benefits
+- **Learn Mode**: Detailed explanations of each amendment with historical context
+- **Quiz System**: Test knowledge with multiple-choice questions
+- **Scenario Challenges**: Apply constitutional knowledge to realistic scenarios
+- **Reflection Prompts**: Encourage deeper thinking about the amendments
+- **XP and Level System**: Track learning progress and provide incentives
 
-- **Consistency**: Ensures all amendment pages have the same look and feel
-- **Maintainability**: Makes updates easier by centralizing common elements
-- **Efficiency**: Reduces redundancy and file size across the application
+## Styling Approach
 
-## Migration Guide
-
-If you need to migrate from the old individual HTML files:
-
-1. Ensure all content is properly represented in amendment_data.js
-2. Use the template.html with URL parameters instead of individual HTML files
-3. Update any links to point to the template.html with appropriate parameters
+The application uses a clean, accessible design with:
+- A responsive layout that works on different devices
+- Consistent color scheme using CSS variables
+- Interactive elements with hover effects and transitions
+- Collapsible sections for organizing content
+- Visual aids and icons to enhance understanding
