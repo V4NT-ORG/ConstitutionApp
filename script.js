@@ -145,10 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Create plain summary if it exists
     if (data.plainSummary) {
-        const titleElement = document.createElement('h3');
-        titleElement.textContent = 'Breakdown into Simple English:';
-        amendmentCard.appendChild(titleElement);
-        
         const summaryContainer = document.createElement('div');
         summaryContainer.id = 'plain-summary';
         
