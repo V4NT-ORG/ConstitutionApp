@@ -107,6 +107,10 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+.amendment-card p {
+    white-space: pre-wrap; /* Preserve whitespace and wrap text */
+}
+
 h2 {
     font-family: 'Playfair Display', serif;
     color: var(--primary-color);
@@ -276,6 +280,32 @@ h3 {
 .icon span {
     font-weight: 600;
     color: var(--dark-text);
+}
+
+/* Amendment card icons on home page */
+.amendment-icon {
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.amendment-icon i {
+    font-size: 32px;
+    color: var(--primary-color);
+    background: rgba(252, 163, 17, 0.15);
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    border-radius: 50%;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.amendment-card-home:hover .amendment-icon i {
+    background: var(--accent-color);
+    color: white;
+    transform: rotate(5deg) scale(1.1);
 }
 
 .fun-fact {
@@ -797,6 +827,10 @@ strong {
 
 .detail-content .fa-info-circle {
     color: var(--accent-color);
+}
+
+.detail-content .fa-lightbulb {
+    color: #ff9800;
 }
 
 /* Specific styling for different amendment types */

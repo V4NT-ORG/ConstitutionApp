@@ -103,13 +103,15 @@ document.addEventListener('DOMContentLoaded', () => {
         storyIcon.className = 'fas fa-book-open story-icon';
         storyIcon.setAttribute('aria-hidden', 'true');
         storyContainer.appendChild(storyIcon);
-        
-        // Add image to the story section
-        const storyImage = document.createElement('img');
-        storyImage.src = `images/amendment${amendmentNumber}.jpg`;
-        storyImage.alt = `Amendment ${amendmentNumber} illustration`;
-        storyImage.className = 'amendment-story-image';
-        storyContainer.appendChild(storyImage);
+
+        // Conditionally add image to the story section if imageFileName exists
+        if (data.imageFileName) {
+            const storyImage = document.createElement('img');
+            storyImage.src = `images/${data.imageFileName}`; // Use the filename from data
+            storyImage.alt = `${data.title} illustration`; // Use amendment title for alt text
+            storyImage.className = 'amendment-story-image';
+            storyContainer.appendChild(storyImage);
+        }
         
         const storyText = document.createElement('p');
         storyText.textContent = data.story;
