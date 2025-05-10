@@ -1,76 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Title will be set by script.js -->
-    <title>Constitution Explorer</title>
-    <!-- Font Awesome -->
+    <title>Bill of Rights Explorer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- External stylesheet -->
     <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  </head>
+  <body>
     <!-- The amendment number will be set by the loading script -->
     <div class="header">
-        <h1>Constitution Explorer</h1>
-        <i class="fas fa-user-circle profile-icon" aria-hidden="true"></i>
-        <div class="progress-bar">
-            <div class="progress"></div>
-        </div>
-        <div id="level-display">Level 1 • 0 XP</div> <!-- Updated by script -->
+      <h1>Bill of Rights Explorer</h1>
+      <i class="fas fa-user-circle profile-icon" aria-hidden="true"></i>
+      <div class="progress-bar">
+        <div class="progress"></div>
+      </div>
+      <div id="level-display">Level 1 ● 0 XP</div>
     </div>
 
     <div class="container">
-        <h2 id="amendment-title">Loading Amendment...</h2> <!-- Placeholder -->
+      <h2 id="amendment-title">Loading Amendment...</h2>
+      <div class="amendment-card">
+        <!-- Content will be dynamically populated by script.js based on available data -->
+      </div>
 
-        <div class="amendment-card">
-            <!-- Content will be dynamically populated by script.js based on available data -->
+      <!-- Quiz Section -->
+      <div class="quiz-section" id="quiz-section" style="display: none;">
+        <h3 id="quiz-title">Checkpoint Quiz</h3>
+        <div id="quiz-questions">
+          <!-- Questions populated by script -->
         </div>
+        <button class="btn" onclick="checkQuiz()">Submit Answers</button>
+        <div id="quiz-results" class="quiz-results"></div>
+      </div>
 
-        <!-- Quiz Section -->
-        <div class="quiz-section" id="quiz-section" style="display: none;"> <!-- Initially hidden -->
-            <h3 id="quiz-title">Checkpoint Quiz</h3>
-            <div id="quiz-questions">
-                <!-- Questions populated by script -->
-            </div>
-            <button class="btn" onclick="checkQuiz()">Submit Answers</button>
-            <div id="quiz-results" class="quiz-results"></div> <!-- Feedback area -->
+      <!-- Scenario Section -->
+      <div class="scenario" id="scenario-section" style="display: none;">
+        <h3 id="scenario-title">Scenario Challenge</h3>
+        <p id="scenario-question"></p>
+        <div id="scenario-options" class="scenario-options">
+          <!-- Options populated by script -->
         </div>
+        <div id="scenario-feedback" class="scenario-feedback"></div>
+      </div>
 
-        <!-- Scenario Section -->
-        <div class="scenario" id="scenario-section" style="display: none;"> <!-- Initially hidden -->
-            <h3 id="scenario-title">Scenario Challenge</h3>
-            <p id="scenario-question"></p> <!-- Populated by script -->
-            <div id="scenario-options" class="scenario-options">
-                <!-- Options populated by script -->
-            </div>
-             <div id="scenario-feedback" class="scenario-feedback"></div> <!-- Feedback area -->
-        </div>
+      <!-- Navigation -->
+      <div class="navigate">
+        <button class="btn" id="prev-button">&lt; Previous Amendment</button>
+        <button class="btn" id="next-button">Next Amendment &gt;</button>
+      </div>
 
-        <!-- Reflection Section -->
-        <div id="reflection-section" style="display: none;"> <!-- Initially hidden -->
-            <h3 id="reflection-title">Reflection Prompt:</h3>
-            <p id="reflection-prompt"></p> <!-- Populated by script -->
-            <textarea id="reflection-text" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; height: 100px; box-sizing: border-box;"></textarea>
-            <br>
-            <button class="btn" style="margin-top: 10px;" onclick="addXP(10, 'reflection-submission')">Submit Reflection</button>
-        </div>
-
-        <!-- Navigation -->
-        <div class="navigate">
-            <button class="btn" id="prev-button">« Previous Module</button>
-            <a class="btn" id="next-button" href="#quiz-section">Go to Quiz »</a>
-        </div>
-    </div>
-
-    <div class="xp-badge">
-        XP: 0 <!-- Updated by script -->
+      <div class="xp-badge">
+        XP: 0
+      </div>
     </div>
 
     <!-- Scripts -->
     <script src="amendment_data.js"></script>
     <script src="loader.js"></script>
     <script src="script.js"></script>
-</body>
+
+  </body>
 </html>

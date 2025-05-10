@@ -2,6 +2,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Determine the current amendment number from a data attribute on the body
     // Example: <body data-amendment="1">
     const amendmentNumber = parseInt(document.body.dataset.amendment, 10);
+    
+    // Load saved XP and progress from localStorage
+    let totalXP = parseInt(localStorage.getItem('totalUserXP')) || 0;
+    let actionScores = JSON.parse(localStorage.getItem('userActionScores')) || {};
+    
+    // Track amendment completion status
+    let amendmentStatus = JSON.parse(localStorage.getItem('amendmentStatus')) || {};
+    const AMENDMENT_XP = 50; // Total XP possible per amendment
+    const COMPLETED_PERCENTAGE = 0.8; // 80% for completed
+    const MASTERED_PERCENTAGE = 1.0; // 100% for mastered
+    
+    
+    // Add CSS for amendment status indicators
+    addStatusStyles();
+    
+    // Update amendment status indicators on home page
+    updateAmendmentStatusIndicators();
+    
 
     // Ensure amendmentData is loaded and the specific amendment exists
     if (typeof amendmentData === 'undefined' || !amendmentData[amendmentNumber]) {
@@ -75,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Populate Header ---
-    document.title = `Constitution Explorer - ${data.numberOrdinal} Amendment`;
+    document.title = `Bill of Rights Explorer - ${data.numberOrdinal} Amendment`;
     // XP and Level are handled by separate logic below
 
     // --- Populate Main Content ---
@@ -274,6 +292,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const quizQuestionsContainer = document.getElementById('quiz-questions');
         if (quizQuestionsContainer) {
             quizQuestionsContainer.innerHTML = ''; // Clear existing
+
+            // Load saved quiz answers if they exist
+            const savedAnswers = loadQuizAnswers(amendmentNumber);
+
             data.quiz.questions.forEach(qData => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'quiz-question';
@@ -282,8 +304,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 optionsDiv.className = 'quiz-options';
                 qData.options.forEach(opt => {
                     const label = document.createElement('label');
+                    // Check if this option was previously selected
+                    const isChecked = savedAnswers && savedAnswers[qData.q] === opt.value;
+
                     // Ensure unique IDs for inputs if needed, though name grouping handles selection
-                    label.innerHTML = `<input type="radio" name="${qData.q}" value="${opt.value}"> ${opt.text}`;
+                    label.innerHTML = `<input type="radio" name="${qData.q}" value="${opt.value}"${isChecked ? ' checked' : ''}> ${opt.text}`;
                     // Style to display each option on a new line and make the bubble properly enclose the text
                     label.style.display = 'inline-block'; // Changed from block to inline-block
                     label.style.marginBottom = '8px'; // Add spacing between options
@@ -302,34 +327,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Populate Scenario ---
-    const scenarioSection = document.getElementById('scenario-section');
-     if (scenarioSection && data.scenario) {
-        scenarioSection.style.display = 'block'; // Ensure it's visible
-        setTextContent('scenario-title', data.scenario.title);
-        setTextContent('scenario-question', data.scenario.question);
-        const scenarioOptionsContainer = document.getElementById('scenario-options');
-        if (scenarioOptionsContainer) {
-            scenarioOptionsContainer.innerHTML = '<p>Choose one:</p>'; // Reset, keep the prompt
-            data.scenario.options.forEach(opt => {
-                const button = document.createElement('button');
-                button.className = 'btn';
-                button.textContent = opt.text;
-                // Use an arrow function to correctly pass the answer value
-                button.onclick = () => checkScenario(opt.answer); // Pass answer value, not the whole object
-                scenarioOptionsContainer.appendChild(button);
-            });
-            // Add the feedback div dynamically if it's not in the template
-            if (!document.getElementById('scenario-feedback')) {
-                 const feedbackDiv = document.createElement('div');
-                 feedbackDiv.id = 'scenario-feedback';
-                 feedbackDiv.className = 'scenario-feedback';
-                 scenarioOptionsContainer.appendChild(feedbackDiv);
+    if (data.scenario) {
+        const scenarioSection = document.getElementById('scenario-section');
+        if (scenarioSection) {
+            scenarioSection.style.display = 'block'; // Show the scenario section
+            setTextContent('scenario-title', data.scenario.title || 'Scenario Challenge');
+            setTextContent('scenario-question', data.scenario.question);
+            
+            const optionsContainer = document.getElementById('scenario-options');
+            if (optionsContainer) {
+                optionsContainer.innerHTML = ''; // Clear any existing options
+                
+                data.scenario.options.forEach((option, index) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'scenario-option';
+                    
+                    const radioBtn = document.createElement('input');
+                    radioBtn.type = 'radio';
+                    radioBtn.id = `scenario-option-${index}`;
+                    radioBtn.name = 'scenario';
+                    radioBtn.value = option.id;
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `scenario-option-${index}`;
+                    label.textContent = option.text;
+                    
+                    optionDiv.appendChild(radioBtn);
+                    optionDiv.appendChild(label);
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                // Add a submit button specifically for the scenario
+                const submitBtn = document.createElement('button');
+                submitBtn.className = 'btn';
+                submitBtn.textContent = 'Submit Answer';
+                submitBtn.onclick = function() {
+                    const selected = document.querySelector('input[name="scenario"]:checked');
+                    if (selected) {
+                        checkScenario(selected.value);
+                    } else {
+                        alert('Please select an answer to continue.');
+                    }
+                };
+                optionsContainer.appendChild(submitBtn);
             }
         }
-     } else if (scenarioSection) {
-         scenarioSection.style.display = 'none'; // Hide if no scenario data
-     }
-
+    }
+    
     // --- Populate Reflection ---
     const reflectionSection = document.getElementById('reflection-section');
     if (reflectionSection && data.reflection) {
@@ -355,7 +399,18 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- Global Interaction Logic (moved from original HTML) ---
 
 // Store action scores to track XP and allow redoing for full credit
-const actionScores = {};
+// Load action scores from localStorage or initialize as empty object
+let actionScores = {};
+try {
+    const storedActionScores = localStorage.getItem('userActionScores');
+    if (storedActionScores) {
+        actionScores = JSON.parse(storedActionScores);
+    }
+} catch (error) {
+    console.error('Error loading action scores from localStorage:', error);
+    // Continue with empty actionScores if there's an error
+}
+
 // Load XP from localStorage or initialize to 0
 let storedXP = localStorage.getItem('totalUserXP');
 let totalXP = storedXP ? parseInt(storedXP, 10) : 0;
@@ -393,6 +448,19 @@ function checkQuiz() {
         return acc;
     }, {});
 
+    // Save current answers to localStorage
+    let userAnswers = {};
+    for (const qData of data.quiz.questions) {
+        const qName = qData.q;
+        const sel = document.querySelector(`input[name=${qName}]:checked`)?.value;
+        if (sel) {
+            userAnswers[qName] = sel;
+        }
+    }
+
+    // Store answers in localStorage
+    saveQuizAnswers(amendmentNumber, userAnswers);
+
     let score = 0;
     let feedback = "<h4>Quiz Results:</h4>";
     const totalQuestions = data.quiz.questions.length;
@@ -400,12 +468,12 @@ function checkQuiz() {
 
     for (const qData of data.quiz.questions) {
         const qName = qData.q;
-        const sel = document.querySelector(`input[name=${qName}]:checked`)?.value;
+        const sel = userAnswers[qName];
         if (sel === correctAnswers[qName]) {
             score += 10;
             feedback += `<p>✅ Question ${qName.slice(1)}: Correct! +10 XP</p>`;
         } else {
-            feedback += `<p>❌ Question ${qName.slice(1)}: Incorrect. The correct answer was '${correctAnswers[qName]}'.</p>`;
+            feedback += `<p>❌ Question ${qName.slice(1)}: Incorrect.</p>`;
         }
     }
 
@@ -416,9 +484,13 @@ function checkQuiz() {
         const additionalXP = score - previousScore;
         if (additionalXP > 0) updateXPDisplay(additionalXP);
         actionScores[actionId] = score;
+        // Save updated actionScores to localStorage
+        localStorage.setItem('userActionScores', JSON.stringify(actionScores));
         if (score < maxScore) showRetryMessage(actionId, score, maxScore);
     } else if (!actionScores[actionId]) { // First attempt
         actionScores[actionId] = score;
+        // Save updated actionScores to localStorage
+        localStorage.setItem('userActionScores', JSON.stringify(actionScores));
         updateXPDisplay(score);
         if (score < maxScore) showRetryMessage(actionId, score, maxScore);
     } else if (score > 0 && score === previousScore) {
@@ -462,10 +534,14 @@ function checkScenario(selectedAnswer) {
         const additionalXP = score - previousScore;
         if (additionalXP > 0) updateXPDisplay(additionalXP);
         actionScores[actionId] = score;
+        // Save updated actionScores to localStorage
+        localStorage.setItem('userActionScores', JSON.stringify(actionScores));
         // Only show retry if they got it wrong (score is 0)
         if (score < maxScore) showRetryMessage(actionId, score, maxScore);
     } else if (!actionScores[actionId]) { // First attempt
         actionScores[actionId] = score;
+        // Save updated actionScores to localStorage
+        localStorage.setItem('userActionScores', JSON.stringify(actionScores));
         if (score > 0) updateXPDisplay(score);
         if (score < maxScore) showRetryMessage(actionId, score, maxScore);
     }
@@ -497,23 +573,77 @@ function addXP(amount, actionId = null) {
     if (amount > previousScore) {
         const additionalXP = amount - previousScore;
         actionScores[fullActionId] = amount;
+        // Save updated actionScores to localStorage
+        localStorage.setItem('userActionScores', JSON.stringify(actionScores));
         updateXPDisplay(additionalXP);
         if (amount < maxXP) showRetryMessage(fullActionId, amount, maxXP);
-         // Provide feedback for reflection submission
-        if (actionId === 'reflection-submission') {
-            alert(`Reflection submitted! +${additionalXP} XP earned.`);
-        }
+        
+        // Check if this completion affects overall amendment status
+        checkAmendmentStatus(amendmentNumber);
     } else if (!actionScores[fullActionId]) { // First attempt
         actionScores[fullActionId] = amount;
+        // Save updated actionScores to localStorage
+        localStorage.setItem('userActionScores', JSON.stringify(actionScores));
         updateXPDisplay(amount);
         if (amount < maxXP) showRetryMessage(fullActionId, amount, maxXP);
-         // Provide feedback for reflection submission
-        if (actionId === 'reflection-submission') {
-            alert(`Reflection submitted! +${amount} XP earned.`);
-        }
+        
+        // Check if this completion affects overall amendment status
+        checkAmendmentStatus(amendmentNumber);
     } else {
         // They've already done better or matched, show a message
         alert(`You've already earned ${previousScore}/${maxXP} XP for this activity. Your best score is kept.`);
+    }
+}
+
+// Function to check if amendment is now completed or mastered
+function checkAmendmentStatus(amendmentNumber) {
+    // Calculate total XP earned for this amendment
+    let earnedXP = 0;
+    Object.keys(actionScores).forEach(key => {
+        if (key.endsWith(`-${amendmentNumber}`)) {
+            earnedXP += actionScores[key];
+        }
+    });
+    
+    const earnedPercentage = Math.min(earnedXP / AMENDMENT_XP, 1);
+    let currentStatus = amendmentStatus[amendmentNumber] || 'incomplete';
+    let newStatus = 'incomplete';
+    let xpToAdd = 0;
+    
+    // Determine new status based on percentage
+    if (earnedPercentage >= MASTERED_PERCENTAGE) {
+        newStatus = 'mastered';
+        if (currentStatus === 'completed') {
+            xpToAdd = Math.floor(AMENDMENT_XP * (MASTERED_PERCENTAGE - COMPLETED_PERCENTAGE));
+        } else if (currentStatus === 'incomplete') {
+            xpToAdd = AMENDMENT_XP;
+        }
+    } else if (earnedPercentage >= COMPLETED_PERCENTAGE) {
+        newStatus = 'completed';
+        if (currentStatus === 'incomplete') {
+            xpToAdd = Math.floor(AMENDMENT_XP * COMPLETED_PERCENTAGE);
+        }
+    }
+    
+    // Update status if changed
+    if (newStatus !== currentStatus && newStatus !== 'incomplete') {
+        amendmentStatus[amendmentNumber] = newStatus;
+        localStorage.setItem('amendmentStatus', JSON.stringify(amendmentStatus));
+        
+        // Award XP and show message
+        if (xpToAdd > 0) {
+            if (newStatus === 'completed') {
+                alert(`Amendment ${amendmentNumber} completed! You earned ${xpToAdd} XP.`);
+            } else if (newStatus === 'mastered') {
+                if (currentStatus === 'completed') {
+                    alert(`Amendment ${amendmentNumber} mastered! You earned an additional ${xpToAdd} XP.`);
+                } else {
+                    alert(`Amendment ${amendmentNumber} mastered! You earned ${xpToAdd} XP.`);
+                }
+            }
+            updateXPDisplay(xpToAdd);
+        }
+        
     }
 }
 
@@ -537,16 +667,8 @@ function updateXPDisplay(additionalXP) {
     // Update progress bar (progress towards next level)
     let progressPercent = Math.min((totalXP % 200) / 200 * 100, 100);
     const progressBar = document.querySelector('.progress');
-     if (progressBar) progressBar.style.width = `${progressPercent}%`;
+    if (progressBar) progressBar.style.width = `${progressPercent}%`;
 
-    // Check for badge earning (example: badge at 200 XP)
-    if (totalXP >= 30 && !document.querySelector('.badge-earned')) {
-        // Check if the badge was already earned in this session to avoid duplicates
-        if (!sessionStorage.getItem('badgeEarned-200XP')) {
-            showBadge('First Amendment Advocate', 'You\'ve mastered the freedoms of the First Amendment.', '🎯');
-            sessionStorage.setItem('badgeEarned-200XP', 'true'); // Mark as earned for this session
-        }
-    }
 }
 
 function getMaxXPForAction(actionId) {
@@ -554,8 +676,7 @@ function getMaxXPForAction(actionId) {
     const maxXPMap = {
         'quiz-completion': 30, // Example: 3 questions × 10 XP
         'scenario-completion': 30,
-        'reflection-submission': 10,
-        'module-completion': 20 // Added for completion button
+        'module-completion': 20 // For completion button
     };
     return maxXPMap[actionId] || 0;
 }
@@ -583,32 +704,64 @@ function showRetryMessage(actionId, earned, max) {
     }, 5000);
 }
 
-function showBadge(title, text, icon) {
-    // Remove existing badge if any
-    const existingBadge = document.querySelector('.badge-earned');
-    if (existingBadge) existingBadge.remove();
-
-    const badge = document.createElement('div');
-    badge.className = 'badge-earned';
-    badge.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:30px;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.3);text-align:center;z-index:1001;'; // Ensure high z-index
-    badge.innerHTML = `
-        <h2>Badge Earned!</h2>
-        <div style="font-size:60px;margin:20px 0;">${icon}</div>
-        <h3>${title}</h3>
-        <p>${text}</p>
-        <button class="btn" onclick="this.parentNode.remove()">Continue</button>
-    `;
-    document.body.appendChild(badge);
-}
 
 function completeModule() {
     const amendmentNumber = parseInt(document.body.dataset.amendment, 10);
     const actionId = `module-completion-${amendmentNumber}`;
     const maxXP = getMaxXPForAction('module-completion');
 
-    // Check if already completed to prevent multiple XP awards
+    // Calculate amendment progress - how much XP did they earn out of total possible?
+    let earnedXP = 0;
+    // Sum up all XP earned for this amendment
+    Object.keys(actionScores).forEach(key => {
+        if (key.endsWith(`-${amendmentNumber}`)) {
+            earnedXP += actionScores[key];
+        }
+    });
+    
+    const earnedPercentage = Math.min(earnedXP / AMENDMENT_XP, 1);
+    let amendmentPreviousStatus = amendmentStatus[amendmentNumber] || 'incomplete';
+    let newStatus = 'incomplete';
+    let xpToAdd = 0;
+    
+    // Mark as completed if 80% or more XP earned
+    if (earnedPercentage >= COMPLETED_PERCENTAGE && earnedPercentage < MASTERED_PERCENTAGE) {
+        newStatus = 'completed';
+        // Award 80% XP for completed if not already earned
+        if (amendmentPreviousStatus === 'incomplete') {
+            xpToAdd = Math.floor(AMENDMENT_XP * COMPLETED_PERCENTAGE);
+            alert(`Amendment ${amendmentNumber} completed! You earned ${xpToAdd} XP.`);
+        }
+    } 
+    // Mark as mastered if 100% XP earned
+    else if (earnedPercentage >= MASTERED_PERCENTAGE) {
+        newStatus = 'mastered';
+        // Award remaining XP if previously only completed
+        if (amendmentPreviousStatus === 'completed') {
+            xpToAdd = Math.floor(AMENDMENT_XP * (MASTERED_PERCENTAGE - COMPLETED_PERCENTAGE));
+            alert(`Amendment ${amendmentNumber} mastered! You earned an additional ${xpToAdd} XP.`);
+        } 
+        // Award full XP if not previously completed
+        else if (amendmentPreviousStatus === 'incomplete') {
+            xpToAdd = AMENDMENT_XP;
+            alert(`Amendment ${amendmentNumber} mastered! You earned ${xpToAdd} XP.`);
+        }
+    }
+    
+    // Update amendment status if changed
+    if (newStatus !== amendmentPreviousStatus) {
+        amendmentStatus[amendmentNumber] = newStatus;
+        localStorage.setItem('amendmentStatus', JSON.stringify(amendmentStatus));
+        
+        // Add XP for the new status
+        if (xpToAdd > 0) {
+            updateXPDisplay(xpToAdd);
+        }
+        
+        }
+
+    // Check if already completed to prevent multiple XP
     if (!actionScores[actionId] || actionScores[actionId] < maxXP) {
-         alert(`Congratulations! You've completed the Amendment ${amendmentNumber} module. +${maxXP} XP!`);
          addXP(maxXP, 'module-completion'); // Use base action ID for tracking
     } else {
          alert(`You have already completed the Amendment ${amendmentNumber} module.`);
@@ -626,3 +779,96 @@ function completeModule() {
 // --- Initialize XP Display on Load ---
 // Call updateXPDisplay with 0 additional XP to render the loaded totalXP value
 updateXPDisplay(0);
+
+// Initialize amendment status indicators
+
+// Function to update amendment card status indicators on the home page
+function updateAmendmentStatusIndicators() {
+    // Only run on the home page
+    if (!document.querySelector('.amendments-list')) return;
+    
+    // Loop through all amendment cards
+    const cards = document.querySelectorAll('.amendment-card-home');
+    cards.forEach(card => {
+        // Get amendment number from the card
+        const amendmentLink = card.querySelector('a');
+        if (!amendmentLink) return;
+        
+        const hrefMatch = amendmentLink.href.match(/amendment=(\d+)/);
+        if (!hrefMatch) return;
+        
+        const amendmentNumber = hrefMatch[1];
+        const status = amendmentStatus[amendmentNumber];
+        
+        // Remove any existing status indicators
+        const existingStatus = card.querySelector('.amendment-status');
+        if (existingStatus) existingStatus.remove();
+        
+        // Add status indicator if completed or mastered
+        if (status === 'completed' || status === 'mastered') {
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `amendment-status ${status}`;
+            
+            // Different icon and text based on status
+            if (status === 'completed') {
+                statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> <span>Completed</span>';
+                statusDiv.style.backgroundColor = 'rgba(42, 157, 143, 0.2)';
+                statusDiv.style.color = '#2a9d8f';
+            } else if (status === 'mastered') {
+                statusDiv.innerHTML = '<i class="fas fa-star"></i> <span>Mastered</span>';
+                statusDiv.style.backgroundColor = 'rgba(233, 196, 106, 0.2)';
+                statusDiv.style.color = '#e9c46a';
+            }
+            
+            card.appendChild(statusDiv);
+        }
+    });
+}
+
+// Add CSS for amendment status indicators
+function addStatusStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .amendment-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .amendment-card-home {
+            position: relative;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Save quiz answers to localStorage
+function saveQuizAnswers(amendmentNumber, answers) {
+    try {
+        // Load existing saved answers
+        const savedQuizAnswers = JSON.parse(localStorage.getItem('quizAnswers')) || {};
+        // Update with new answers for this amendment
+        savedQuizAnswers[amendmentNumber] = answers;
+        // Save back to localStorage
+        localStorage.setItem('quizAnswers', JSON.stringify(savedQuizAnswers));
+    } catch (error) {
+        console.error('Error saving quiz answers to localStorage:', error);
+    }
+}
+
+// Load quiz answers from localStorage
+function loadQuizAnswers(amendmentNumber) {
+    try {
+        const savedQuizAnswers = JSON.parse(localStorage.getItem('quizAnswers')) || {};
+        return savedQuizAnswers[amendmentNumber] || null;
+    } catch (error) {
+        console.error('Error loading quiz answers from localStorage:', error);
+        return null;
+    }
+}
