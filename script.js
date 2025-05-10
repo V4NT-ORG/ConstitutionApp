@@ -394,6 +394,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navContainer) navContainer.style.display = 'none';
     }
 
+    // Add event listener for the Home button
+    const homeButton = document.getElementById('home-button');
+    if (homeButton) {
+        homeButton.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    }
+
 });
 
 // --- Global Interaction Logic (moved from original HTML) ---
