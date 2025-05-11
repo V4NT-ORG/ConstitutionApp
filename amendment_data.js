@@ -5,7 +5,7 @@ const amendmentData = {
     numberOrdinal: "First",
     subtitle: "What is the First Amendment?",
     imageFileName: "amendment1.jpg", // Added image file name
-    story: "At school, Maya started a podcast where students could talk about anything—from favorite books to spicy takes on school rules. The principal didn't like it and tried to shut it down. But Maya knew her rights — the First Amendment was on her side. Soon, her friends joined in, rallying peacefully for change. Turns out, knowing your rights makes your voice unstoppable.",
+    story: "At school, Brandon started a podcast where students could talk about anything from favorite books to different takes on school rules. The principal didn't like it and tried to shut it down. But Brandon knew her rights, the First Amendment was on her side. Soon, his friends joined in, rallying peacefully for change. Turns out, knowing your rights makes sure your voice is heard.",
     description: [
       "The First Amendment to the U.S. Constitution is one of the most important parts of American democracy. It guarantees five powerful freedoms that let people speak out, believe what they want, and challenge the government. These rights are the foundation of a society where ideas can be shared, debated, and defended."
     ],
@@ -144,7 +144,7 @@ const amendmentData = {
     },
     navigation: {
       prev: { text: "« Previous Module", link: "#" },
-      next: { text: "Next: Amendment II »", link: "template.html?amendment=2" }
+      next: { text: "Next: Amendment II »", link: "amendments.html?amendment=2" }
     }
   },
   2: {
@@ -259,8 +259,8 @@ const amendmentData = {
       ]
     },
     navigation: {
-      prev: { text: "« Previous: Amendment I", link: "template.html?amendment=1" },
-      next: { text: "Next: Amendment III »", link: "template.html?amendment=3" } // Corrected link
+      prev: { text: "« Previous: Amendment I", link: "amendments.html?amendment=1" },
+      next: { text: "Next: Amendment III »", link: "amendments.html?amendment=3" } // Corrected link
     }
   },
   3: {
@@ -374,8 +374,8 @@ const amendmentData = {
       ]
     },
     navigation: {
-      prev: { text: "« Previous: Amendment II", link: "template.html?amendment=2" },
-      next: { text: "Next: Amendment IV »", link: "template.html?amendment=4" }
+      prev: { text: "« Previous: Amendment II", link: "amendments.html?amendment=2" },
+      next: { text: "Next: Amendment IV »", link: "amendments.html?amendment=4" }
     }
   },
   4: {
@@ -490,8 +490,8 @@ const amendmentData = {
       ]
     },
     navigation: {
-      prev: { text: "« Previous: Amendment III", link: "template.html?amendment=3" },
-      next: { text: "Next: Amendment V »", link: "template.html?amendment=5" }
+      prev: { text: "« Previous: Amendment III", link: "amendments.html?amendment=3" },
+      next: { text: "Next: Amendment V »", link: "amendments.html?amendment=5" }
     }
   },
   5: {
@@ -635,8 +635,8 @@ const amendmentData = {
       ]
     },
     navigation: {
-      prev: { text: "« Previous: Amendment IV", link: "template.html?amendment=4" },
-      next: { text: "Next: Amendment VI »", link: "template.html?amendment=6" } // Assuming Amendment VI exists or will be added
+      prev: { text: "« Previous: Amendment IV", link: "amendments.html?amendment=4" },
+      next: { text: "Next: Amendment VI »", link: "amendments.html?amendment=6" } // Assuming Amendment VI exists or will be added
     }
   },
 
@@ -797,8 +797,8 @@ const amendmentData = {
       ]
     },
     navigation: {
-      prev: { text: "« Previous: Amendment V", link: "template.html?amendment=5" },
-      next: { text: "Next: Amendment VII »", link: "template.html?amendment=7" }
+      prev: { text: "« Previous: Amendment V", link: "amendments.html?amendment=5" },
+      next: { text: "Next: Amendment VII »", link: "amendments.html?amendment=7" }
     }
   },
 
@@ -915,8 +915,8 @@ const amendmentData = {
       ]
     },
     navigation: {
-      prev: { text: "« Previous: Amendment VI", link: "template.html?amendment=6" },
-      next: { text: "Next: Amendment VIII »", link: "template.html?amendment=8" }
+      prev: { text: "« Previous: Amendment VI", link: "amendments.html?amendment=6" },
+      next: { text: "Next: Amendment VIII »", link: "amendments.html?amendment=8" }
     }
   },
 
@@ -1043,8 +1043,8 @@ const amendmentData = {
       ]
     },
     navigation: {
-      prev: { text: "« Previous: Amendment VII", link: "template.html?amendment=7" },
-      next: { text: "Next: Amendment IX »", link: "template.html?amendment=9" }
+      prev: { text: "« Previous: Amendment VII", link: "amendments.html?amendment=7" },
+      next: { text: "Next: Amendment IX »", link: "amendments.html?amendment=9" }
     }
   },
 
@@ -1160,8 +1160,8 @@ const amendmentData = {
       ]
     },
     navigation: {
-      prev: { text: "« Previous: Amendment VIII", link: "template.html?amendment=8" },
-      next: { text: "Next: Amendment X »", link: "template.html?amendment=10" }
+      prev: { text: "« Previous: Amendment VIII", link: "amendments.html?amendment=8" },
+      next: { text: "Next: Amendment X »", link: "amendments.html?amendment=10" }
     }
   },
   10: {
@@ -1284,7 +1284,7 @@ const amendmentData = {
       ]
     },
     navigation: {
-      prev: { text: "« Previous: Amendment IX", link: "template.html?amendment=9" },
+      prev: { text: "« Previous: Amendment IX", link: "amendments.html?amendment=9" },
       next: { text: "« Back to Overview", link: "index.html" }
     }
   }
