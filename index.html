@@ -130,6 +130,32 @@
             margin-top: 0;
         }
         
+        .feedback-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .feedback-link a {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feedback-link a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feedback-link i {
+            margin-right: 8px;
+        }
+        
         .app-version {
             font-size: 0.9rem;
             text-align: center;
@@ -255,6 +281,10 @@
         <!-- Awards Section -->
         <div class="awards-container">
             <!-- Will be populated by awards.js -->
+        </div>
+        
+        <div class="feedback-link">
+            <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfFvKmlR2HsdiDP__hcsu5lm7LbJedXW1xHIIJxdo04HVgAUQ/viewform" target="_blank"><i class="fas fa-comment"></i> Give us feedback</a></p>
         </div>
         
         <div class="app-version">
