@@ -1,0 +1,14 @@
+.navigate{
+  display:flex;justify-content:space-between;
+  margin-top:40px;padding-top:20px;
+  border-top:1px solid #e9ecef;
+}
+@media(max-width:768px){
+  .navigate{flex-direction:column;}
+  .navigate .btn{margin-bottom:10px;}
+}
+@media(max-width:600px){
+  .navigate .btn{
+    width:100%;margin-left:0;margin-right:0;
+  }
+}

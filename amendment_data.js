@@ -1285,7 +1285,123 @@ const amendmentData = {
     },
     navigation: {
       prev: { text: "« Previous: Amendment IX", link: "amendments.html?amendment=9" },
-      next: { text: "« Back to Overview", link: "index.html" }
+      next: { text: "Next: Amendment XI »", link: "amendments.html?amendment=11" }
+    }
+  },
+  11: {
+    title: "Amendment XI",
+    numberRoman: "XI",
+    numberOrdinal: "Eleventh",
+    subtitle: "What is the Eleventh Amendment?",
+    story: "During her constitutional law class, Elena learned about a landmark case where a citizen tried to sue a neighboring state over unpaid bonds. The Supreme Court ruled the lawsuit couldn't proceed because of the Eleventh Amendment, which prevents federal courts from hearing certain suits against states. While discussing the case, Elena's professor explained how this amendment balances state sovereignty with federal power. Later, while interning at a legal aid clinic, Elena saw firsthand how this amendment shaped which cases could be brought against state agencies, forcing attorneys to carefully consider alternative legal strategies to hold governments accountable.",
+    description: [
+      "The Eleventh Amendment limits the judicial power of federal courts by preventing them from hearing certain suits against states. Specifically, it bars federal courts from hearing lawsuits brought against states by citizens of other states or foreign countries. This amendment reinforces state sovereignty while creating important boundaries in the federal system."
+    ],
+    fullText: "The Judicial power of the United States shall not be construed to extend to any suit in law or equity, commenced or prosecuted against one of the United States by Citizens of another State, or by Citizens or Subjects of any Foreign State.",
+    plainSummary: `
+      <div class="plain-summary-container">
+        <h3 class="plain-summary-title">Eleventh Amendment Breakdown</h3>
+
+        <details class="amendment-detail judicial-power-detail">
+          <summary><i class="fas fa-gavel"></i> Judicial Power Limitation: "The Judicial power of the United States shall not be construed to extend to any suit in law or equity..."</summary>
+          <div class="detail-content">
+            <p><i class="fas fa-check-circle"></i> Limits the jurisdiction of federal courts.</p>
+            <p><i class="fas fa-check-circle"></i> Applies to both legal claims for damages and equitable claims for injunctions.</p>
+            <p><i class="fas fa-lightbulb"></i> <strong>Context:</strong> Directly responded to the Supreme Court case <em>Chisholm v. Georgia</em> (1793), which allowed a citizen to sue Georgia in federal court.</p>
+          </div>
+        </details>
+
+        <details class="amendment-detail state-immunity-detail">
+          <summary><i class="fas fa-shield-alt"></i> State Immunity Clause: "...commenced or prosecuted against one of the United States by Citizens of another State, or by Citizens or Subjects of any Foreign State."</summary>
+          <div class="detail-content">
+            <p><i class="fas fa-check-circle"></i> Protects states from being sued in federal court by citizens of other states.</p>
+            <p><i class="fas fa-check-circle"></i> Also prevents lawsuits against states by citizens of foreign countries.</p>
+            <p><i class="fas fa-exclamation-circle"></i> <strong>Broader Interpretation:</strong> Courts have expanded this to generally prohibit suits against a state by its own citizens as well.</p>
+            <p><i class="fas fa-lightbulb"></i> <strong>Purpose:</strong> Protects state treasuries and dignity as sovereign entities in the federal system.</p>
+          </div>
+        </details>
+      </div>
+    `,
+    keyPoints: [
+      {
+        id: "historical-context",
+        title: "Historical Context",
+        text: "The Eleventh Amendment was the first amendment added after the Bill of Rights. It was adopted in 1795 as a direct response to the Supreme Court's decision in <em>Chisholm v. Georgia</em> (1793), where the Court allowed a South Carolina citizen to sue Georgia to collect Revolutionary War debts. This decision alarmed many states concerned about numerous lawsuits over war debts, and Congress quickly proposed the amendment to overturn the ruling."
+      },
+      {
+        id: "sovereign-immunity",
+        title: "Sovereign Immunity Doctrine",
+        text: "Though narrowly written, the Eleventh Amendment has been interpreted to represent the broader principle of 'sovereign immunity'—the doctrine that governments cannot be sued without their consent. In <em>Hans v. Louisiana</em> (1890), the Supreme Court expanded the amendment's reach to prevent citizens from suing their own states in federal court, though this wasn't explicitly stated in the text."
+      },
+      {
+        id: "modern-exceptions",
+        title: "Modern Exceptions and Limitations",
+        text: "Several important exceptions allow certain suits against states despite the Eleventh Amendment: <ul><li>States can consent to be sued and waive their immunity</li><li>Congress can abrogate state immunity in limited circumstances using its Fourteenth Amendment powers</li><li>The <em>Ex parte Young</em> doctrine allows suits against state officials for injunctive relief to stop unconstitutional conduct</li><li>The amendment doesn't prevent suits brought by the federal government or other states</li></ul>"
+      }
+    ],
+    quiz: {
+      title: "Checkpoint Quiz",
+      questions: [
+        {
+          q: "q1",
+          text: "<strong>1 of 5:</strong> What Supreme Court case prompted the adoption of the Eleventh Amendment?",
+          options: [
+            { value: "a", text: "Marbury v. Madison" },
+            { value: "b", text: "Chisholm v. Georgia" },
+            { value: "c", text: "McCulloch v. Maryland" },
+            { value: "d", text: "Gibbons v. Ogden" }
+          ],
+          answer: "b"
+        },
+        {
+          q: "q2",
+          text: "<strong>2 of 5:</strong> What does the Eleventh Amendment primarily protect?",
+          options: [
+            { value: "a", text: "The right to sue state governments" },
+            { value: "b", text: "State sovereign immunity from certain lawsuits" },
+            { value: "c", text: "The power of Congress to regulate commerce" },
+            { value: "d", text: "Individual rights against state action" }
+          ],
+          answer: "b"
+        },
+        {
+          q: "q3",
+          text: "<strong>3 of 5:</strong> Under the <em>Ex parte Young</em> doctrine, what type of suit is still permitted despite the Eleventh Amendment?",
+          options: [
+            { value: "a", text: "Suits against a state for monetary damages" },
+            { value: "b", text: "Suits against state officials for injunctive relief to stop unconstitutional conduct" },
+            { value: "c", text: "Suits against state tax agencies" },
+            { value: "d", text: "Suits by foreign nations against states" }
+          ],
+          answer: "b"
+        },
+        {
+          q: "q4",
+          text: "<strong>4 of 5:</strong> According to the Supreme Court's interpretation in <em>Hans v. Louisiana</em>, can a citizen sue their own state in federal court?",
+          options: [
+            { value: "a", text: "Yes, this is explicitly allowed by the Eleventh Amendment" },
+            { value: "b", text: "No, the Court extended the amendment to bar such suits despite this not being in the text" },
+            { value: "c", text: "Yes, but only for constitutional violations" },
+            { value: "d", text: "The Court has never addressed this question" }
+          ],
+          answer: "b"
+        },
+        {
+          q: "q5",
+          text: "<strong>5 of 5:</strong> Which of the following can generally still sue a state despite the Eleventh Amendment?",
+          options: [
+            { value: "a", text: "A citizen of a foreign country" },
+            { value: "b", text: "A corporation based in another state" },
+            { value: "c", text: "The federal government" },
+            { value: "d", text: "A citizen of that state" }
+          ],
+          answer: "c"
+        }
+      ]
+    },
+    navigation: {
+      prev: { text: "« Previous: Amendment X", link: "amendments.html?amendment=10" },
+      next: { text: "Next: Amendment XII »", link: "amendments.html?amendment=12" }
     }
   }
 };

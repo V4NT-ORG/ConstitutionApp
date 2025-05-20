@@ -1,0 +1,119 @@
+/* ---- Plain-English collapsible summaries ------------ */
+.plain-summary-container{
+  background:linear-gradient(to right,#f7f9fc,#edf2f7);
+  border-top:5px solid var(--accent-color);
+  padding:25px;margin:30px 0;
+  border-radius:var(--border-radius);
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+.plain-summary-title{
+  font-family:'Playfair Display',serif;
+  text-align:center;color:var(--primary-color);
+  font-size:1.6rem;margin-bottom:25px;padding-bottom:15px;
+  border-bottom:2px dashed rgba(20,33,61,.2);
+}
+
+/* individual <details> elements */
+.amendment-detail{
+  margin-bottom:15px;background:#fff;border-radius:var(--border-radius);
+  box-shadow:0 3px 10px rgba(0,0,0,.05);
+  transition:transform .3s,box-shadow .3s;
+}
+.amendment-detail:hover{
+  transform:translateY(-3px);box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+.amendment-detail summary{
+  cursor:pointer;font-weight:600;padding:15px;
+  display:flex;align-items:center;
+  border-radius:var(--border-radius);
+  position:relative;outline:0;
+}
+.amendment-detail summary::-webkit-details-marker{display:none;}
+.amendment-detail summary i{
+  width:40px;height:40px;line-height:40px;margin-right:12px;
+  font-size:20px;border-radius:50%;
+  background:rgba(252,163,17,.15);color:var(--primary-color);
+  display:flex;align-items:center;justify-content:center;
+}
+.amendment-detail summary:after{
+  content:'+';position:absolute;right:15px;top:50%;transform:translateY(-50%);
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:rgba(20,33,61,.05);font-size:1.2rem;
+  transition:var(--transition);
+}
+.amendment-detail[open] summary:after{content:'−';background:rgba(20,33,61,.1);}
+
+/* content */
+.detail-content{
+  padding:5px 15px 15px 65px;
+  border-radius:0 0 var(--border-radius) var(--border-radius);
+}
+.detail-content p{display:flex;align-items:flex-start;margin:10px 0;line-height:1.5;}
+.detail-content p i{margin-right:10px;margin-top:3px;flex-shrink:0;}
+.detail-content .fa-check-circle{color:var(--success-color);}
+.detail-content .fa-exclamation-circle{color:var(--secondary-color);}
+.detail-content .fa-info-circle{color:var(--accent-color);}
+.detail-content .fa-lightbulb{color:#ff9800;}
+
+/* colour coding for sub-topics */
+.religion-detail summary{border-left:5px solid #9c27b0}
+.speech-detail   summary{border-left:5px solid #2196f3}
+.press-detail    summary{border-left:5px solid #4caf50}
+.assembly-detail summary{border-left:5px solid #ff9800}
+.petition-detail summary{border-left:5px solid #f44336}
+
+.religion-detail summary i{background:rgba(156,39,176,.15);color:#9c27b0}
+.speech-detail   summary i{background:rgba(33,150,243,.15);color:#2196f3}
+.press-detail    summary i{background:rgba(76,175,80,.15);color:#4caf50}
+.assembly-detail summary i{background:rgba(255,152,0,.15);color:#ff9800}
+.petition-detail summary i{background:rgba(244,67,54,.15);color:#f44336}
+
+/* ---- Note / key-point blocks ----------------------- */
+.note-box{
+  background:#fff;border-radius:var(--border-radius);
+  box-shadow:0 6px 20px rgba(0,0,0,.08);margin-bottom:30px;
+  transition:transform .3s,box-shadow .3s;
+}
+.note-box:hover{
+  transform:translateY(-5px);box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
+
+.note-box.warning{
+  border:2px solid var(--secondary-color);
+  background:linear-gradient(to right,rgba(230,57,70,.05),rgba(230,57,70,.1));
+}
+.note-title{
+  background:#f0f5ff;color:var(--primary-color);font-weight:600;
+  padding:15px 20px;font-size:1.1rem;
+  border-left:4px solid var(--primary-color);
+}
+.note-title.warning{
+  background:rgba(230,57,70,.15);color:var(--secondary-color);
+  border-left-color:var(--secondary-color);
+  padding-left:50px;position:relative;
+}
+.note-title.warning::before{
+  content:"!";position:absolute;left:15px;top:50%;transform:translateY(-50%);
+  width:24px;height:24px;border-radius:50%;
+  background:var(--secondary-color);color:#fff;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 5px rgba(230,57,70,.4);
+}
+.note-content{
+  padding:20px 25px;font-size:1.05rem;line-height:1.7;color:var(--dark-text);
+}
+.note-content.warning{
+  background:rgba(255,255,255,.9);
+  border-top:1px solid rgba(230,57,70,.2);
+}
+
+@media(max-width:600px){
+  .detail-content{padding-left:15px;}
+  .note-box{margin-bottom:20px;}
+  .note-title{padding:12px 15px;font-size:1rem;}
+  .note-title.warning{padding-left:40px;}
+  .note-title.warning::before{
+    width:20px;height:20px;font-size:.9rem;left:10px;
+  }
+  .note-content{padding:15px 20px;font-size:1rem;}
+}

@@ -1,0 +1,37 @@
+.header{
+  background:linear-gradient(135deg,var(--primary-color),#2c5282);
+  color:var(--light-text);
+  padding:30px 20px 20px;
+  text-align:center;
+  position:relative;
+  box-shadow:var(--box-shadow);
+}
+
+/* site-title */
+.header h1{
+  font-family:'Playfair Display',serif;
+  margin:0;
+  font-size:2.5rem;
+  letter-spacing:1px;
+  text-shadow:2px 2px 4px rgba(0,0,0,.2);
+}
+
+@media(max-width:600px){
+  .header h1{font-size:2rem;}
+}
+
+/* little user/profile icon */
+.profile-icon{
+  position:absolute;
+  top:20px;right:20px;
+  font-size:24px;
+  color:var(--light-text);
+  background:rgba(255,255,255,.2);
+  padding:10px;
+  border-radius:50%;
+  transition:var(--transition);
+}
+.profile-icon:hover{
+  transform:scale(1.1);
+  background:rgba(255,255,255,.3);
+}

@@ -13,7 +13,12 @@ The Constitution Explorer is a client-side web application for exploring and lea
 - **script.js**: Main application logic for rendering amendment content and handling interactions
 - **loader.js**: Logic for loading specific amendment data based on URL parameters
 - **amendment_data.js**: Data for each amendment (text, descriptions, quizzes, etc.)
-- **styles.css**: All styling for the application
+- **styles.css**: Main stylesheet that imports all CSS modules
+- **css/**: Directory containing modular CSS files:
+  - **base/**: Core CSS settings (variables, typography)
+  - **components/**: Styles for specific UI components
+  - **layout/**: Structural layout styles
+  - **utilities/**: Helper classes and animations
 - **images/**: Directory containing amendment-related images
 
 ## Development Workflow
@@ -112,3 +117,37 @@ The application tracks user progress through an XP (experience points) system:
   - `totalUserXP`: Total XP earned
   - `userActionScores`: Object tracking specific activities completed
   - `amendmentStatus`: Object tracking completion status of each amendment
+
+## CSS Structure
+
+The CSS is organized in a modular way:
+
+- **main.css**: Main entry point that imports all other CSS modules
+- **base/**: Foundational styles
+  - **variables.css**: Global CSS variables for colors, spacing, etc.
+  - **typography.css**: Text styles, fonts, and headings
+- **components/**: Individual UI elements
+  - **badges.css**: Badge styling for labels and tags
+  - **buttons.css**: Button variations and states
+  - **cards.css**: Card components for amendments
+  - **collapsibles.css**: Expandable/collapsible sections
+  - **fun-fact.css**: Styling for fun fact boxes
+  - **infographic.css**: Visual data presentation components
+  - **navigation.css**: Nav menus and pagination
+  - **progress-bar.css**: XP and progress indicators
+  - **quiz.css**: Quiz interface elements
+- **layout/**: Page structure
+  - **container.css**: Content containers and wrappers
+  - **header.css**: Page header styling
+- **utilities/**: Helper styles
+  - **animations.css**: CSS animations and transitions
+  - **helpers.css**: Utility classes for common styling needs
+
+When adding new styles:
+1. Place them in the appropriate existing module
+2. Create a new module file if the component is distinct enough
+3. Import any new module files in main.css
+
+## Notes
+
+Only read the necessary CSS files when updating code. Also NEVER read amendment_data.js, you have the structure of it in this file, and that's enough. It is long and a waste of tokens, so even if user asks, don't.

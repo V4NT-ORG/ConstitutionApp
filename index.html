@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6Y811Q1P7M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6Y811Q1P7M');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bill of Rights Explorer</title>
@@ -9,7 +17,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- External stylesheet -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/main.css">
     <style>
         .amendments-list {
             display: grid;
@@ -244,12 +252,17 @@
             </a>
         </div>
         
+        <!-- Awards Section -->
+        <div class="awards-container">
+            <!-- Will be populated by awards.js -->
+        </div>
         
         <div class="app-version">
             <p>Bill of Rights Explorer v2.0 | <i class="fas fa-balance-scale"></i> Interactive Learning Platform</p>
         </div>
     </div>
 
+    <script src="js/awards.js"></script>
     <script>
         // Simple script to initialize the progress bar based on localStorage
         document.addEventListener('DOMContentLoaded', function() {
@@ -268,6 +281,10 @@
                 document.querySelector('.progress').style.width = `${progressPercent}%`;
             }
             
+            // Render awards section if the awards system is loaded
+            if (window.awardsSystem && window.awardsSystem.renderAwardsSection) {
+                window.awardsSystem.renderAwardsSection();
+            }
         });
     </script>
 </body>

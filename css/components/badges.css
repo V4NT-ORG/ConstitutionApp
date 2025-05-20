@@ -1,0 +1,20 @@
+.xp-badge{
+  position:fixed;bottom:25px;right:25px;z-index:1000;
+  background:var(--accent-color);color:var(--dark-text);
+  padding:12px 20px;border:2px solid rgba(255,255,255,.3);
+  border-radius:50px;font-weight:600;font-size:16px;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  transition:var(--transition);
+}
+.xp-badge:hover{
+  transform:scale(1.05) rotate(2deg);
+  box-shadow:0 6px 25px rgba(0,0,0,.2);
+}
+
+.retry-message{
+  position:fixed;bottom:80px;right:25px;z-index:1000;
+  background:var(--accent-color);color:var(--dark-text);
+  padding:12px 20px;border-radius:var(--border-radius);
+  box-shadow:0 4px 20px rgba(0,0,0,.15);font-weight:600;
+  opacity:0;animation:fadeIn .5s forwards,fadeOut .5s 4.5s forwards;
+}

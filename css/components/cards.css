@@ -1,0 +1,108 @@
+/* ── Amendment card (sidebar version) ─────────────────── */
+.amendment-card{
+  border-left:6px solid var(--primary-color);
+  background:rgba(241,250,238,.3);
+  padding:25px;margin-bottom:30px;
+  border-radius:0 var(--border-radius) var(--border-radius) 0;
+  transition:var(--transition);
+}
+.amendment-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+/* ── Story block inside a card ─────────────────────────── */
+.amendment-story{
+  background:linear-gradient(to right,rgba(252,163,17,.15),rgba(252,163,17,.3));
+  border-left:6px solid var(--secondary-color);
+  padding:35px 30px 30px 80px;
+  margin:35px 0 30px;
+  border-radius:var(--border-radius);
+  position:relative;
+  box-shadow:0 8px 25px rgba(0,0,0,.1);
+  transition:transform .3s,box-shadow .3s;
+}
+.amendment-story:hover{
+  transform:translateY(-5px);
+  box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+
+/* little icon on the left */
+.story-icon{
+  position:absolute;left:20px;top:35px;
+  width:45px;height:45px;line-height:45px;
+  font-size:24px;border-radius:50%;
+  background:rgba(255,255,255,.7);
+  color:var(--secondary-color);text-align:center;
+  box-shadow:0 3px 8px rgba(0,0,0,.1);
+}
+
+/* story image */
+.amendment-story-image{
+  display:block;max-width:100%;max-height:600px;
+  margin:0 auto 20px;
+  border-radius:var(--border-radius);
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+  object-fit:contain;
+  transition:transform .3s,box-shadow .3s;
+}
+.amendment-story-image:hover{
+  transform:scale(1.02);
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+@media(min-width:768px){
+  .amendment-story-image{max-width:80%;}
+}
+
+/* pull-quote / full text */
+.full-text{
+  background:linear-gradient(to right,rgba(241,250,238,.7),rgba(241,250,238,.9));
+  border-left:5px solid var(--accent-color);
+  padding:30px;margin:25px 0;
+  font-style:italic;font-size:1.1rem;
+  border-radius:var(--border-radius);
+  box-shadow:0 4px 15px rgba(0,0,0,.05);
+  position:relative;
+}
+.full-text::before{
+  content:open-quote;
+  position:absolute;left:10px;top:-15px;
+  font-size:60px;font-family:serif;
+  color:rgba(20,33,61,.1);
+}
+@media(max-width:600px){
+  .amendment-story{padding:25px 20px;margin:25px 0;}
+  .story-icon{position:static;margin-bottom:15px;text-align:center;}
+  .full-text{padding:20px;font-size:1rem;}
+  .full-text::before{font-size:40px;top:-10px;}
+}
+
+/* ── Cards used on the home / grid view ───────────────── */
+.amendment-card-home{
+  background:#fff;padding:25px;
+  border-top:5px solid var(--primary-color);
+  border-radius:var(--border-radius);
+  text-align:center;
+  box-shadow:0 5px 15px rgba(0,0,0,.05);
+  transition:var(--transition);
+  display:flex;flex-direction:column;
+  justify-content:space-between;
+  height:100%;
+}
+.amendment-card-home:hover{
+  transform:translateY(-10px);
+  box-shadow:0 15px 30px rgba(0,0,0,.1);
+  border-top-color:var(--accent-color);
+}
+
+.amendment-icon{display:flex;justify-content:center;margin:0 auto 15px;}
+.amendment-icon i{
+  width:70px;height:70px;line-height:70px;
+  font-size:32px;border-radius:50%;
+  background:rgba(252,163,17,.15);color:var(--primary-color);
+  transition:var(--transition);text-align:center;
+}
+.amendment-card-home:hover .amendment-icon i{
+  background:var(--accent-color);color:#fff;
+  transform:rotate(5deg) scale(1.1);
+}

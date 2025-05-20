@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update amendment status indicators on home page
     updateAmendmentStatusIndicators();
     
+    // Integrate with awards system
+    integrateAwardSystem();
+    
 
     // Ensure amendmentData is loaded and the specific amendment exists
     if (typeof amendmentData === 'undefined' || !amendmentData[amendmentNumber]) {
@@ -446,6 +449,17 @@ function showInfo(elementId, text) {
     }
 }
 
+// Function to integrate with the award system
+function integrateAwardSystem() {
+    if (window.awardsSystem) {
+        // Trigger amendment visited event
+        const amendmentNumber = parseInt(document.body.dataset.amendment, 10);
+        if (!isNaN(amendmentNumber)) {
+            window.awardsSystem.triggerAwardEvent('amendmentVisited', amendmentNumber);
+        }
+    }
+}
+
 function checkQuiz() {
     const amendmentNumber = parseInt(document.body.dataset.amendment, 10);
     if (!amendmentData || !amendmentData[amendmentNumber] || !amendmentData[amendmentNumber].quiz) return;
@@ -513,6 +527,19 @@ function checkQuiz() {
         resultsElement.style.display = 'block';
         resultsElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
+    
+    // Trigger award event for quiz completion ONLY when the score improves or it's the first attempt
+    if (window.awardsSystem && (score > previousScore || !actionScores[actionId])) {
+        // If this is an improvement, only count the net new correct answers
+        const correctCount = !actionScores[actionId] ? score / 10 : (score - previousScore) / 10;
+        
+        window.awardsSystem.triggerAwardEvent('quizCompleted', amendmentNumber, {
+            correctCount: correctCount, 
+            totalQuestions: totalQuestions,
+            isPerfect: score === maxScore,
+            isImprovement: true
+        });
+    }
 }
 
 function checkScenario(selectedAnswer) {
@@ -526,8 +553,9 @@ function checkScenario(selectedAnswer) {
     let score = 0;
     let feedbackText = '';
     const maxScore = 30; // Assuming 30 XP for scenario
+    const isCorrect = selectedAnswer === data.correctAnswer;
 
-    if (selectedAnswer === data.correctAnswer) {
+    if (isCorrect) {
         feedbackText = data.feedbackCorrect;
         score = maxScore;
     } else {
@@ -558,6 +586,13 @@ function checkScenario(selectedAnswer) {
     feedbackElement.innerHTML = feedbackText;
     feedbackElement.style.display = 'block';
     feedbackElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+    // Trigger award event for scenario completion ONLY when score improves or it's the first attempt
+    if (window.awardsSystem && isCorrect && (score > previousScore || !actionScores[actionId])) {
+        window.awardsSystem.triggerAwardEvent('scenarioCompleted', amendmentNumber, {
+            isCorrect: true
+        });
+    }
 }
 
 
@@ -642,16 +677,25 @@ function checkAmendmentStatus(amendmentNumber) {
         if (xpToAdd > 0) {
             if (newStatus === 'completed') {
                 alert(`Amendment ${amendmentNumber} completed! You earned ${xpToAdd} XP.`);
+                
+                // Trigger award event for amendment completion
+                if (window.awardsSystem) {
+                    window.awardsSystem.triggerAwardEvent('amendmentCompleted', amendmentNumber);
+                }
             } else if (newStatus === 'mastered') {
                 if (currentStatus === 'completed') {
                     alert(`Amendment ${amendmentNumber} mastered! You earned an additional ${xpToAdd} XP.`);
                 } else {
                     alert(`Amendment ${amendmentNumber} mastered! You earned ${xpToAdd} XP.`);
                 }
+                
+                // Trigger award event for amendment mastery
+                if (window.awardsSystem) {
+                    window.awardsSystem.triggerAwardEvent('amendmentMastered', amendmentNumber);
+                }
             }
             updateXPDisplay(xpToAdd);
         }
-        
     }
 }
 
