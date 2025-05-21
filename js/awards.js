@@ -167,6 +167,10 @@ function initializeAwardProgress() {
         count: 0,
         currentTier: null
       };
+      // Initialize visitedAmendments for constitutionExplorer
+      if (award.id === 'constitutionExplorer') {
+        userAwards.progress[award.id].visitedAmendments = [];
+      }
       userAwards.unlocked[award.id] = [];
     });
   });
@@ -320,8 +324,25 @@ function setupAwardListeners() {
     // Process different event types
     switch (type) {
       case 'amendmentVisited':
-        incrementAwardProgress('constitutionExplorer', 'explorerAwards');
-        checkAwardTier('constitutionExplorer', 'explorerAwards');
+        // Ensure constitutionExplorer progress is initialized
+        if (!userAwards.progress.constitutionExplorer) {
+          userAwards.progress.constitutionExplorer = {
+            count: 0,
+            currentTier: null,
+            visitedAmendments: []
+          };
+        }
+        // Ensure visitedAmendments array is initialized
+        if (!userAwards.progress.constitutionExplorer.visitedAmendments) {
+          userAwards.progress.constitutionExplorer.visitedAmendments = [];
+        }
+
+        if (amendmentNumber && !userAwards.progress.constitutionExplorer.visitedAmendments.includes(amendmentNumber)) {
+          userAwards.progress.constitutionExplorer.visitedAmendments.push(amendmentNumber);
+          incrementAwardProgress('constitutionExplorer', 'explorerAwards'); // This calls saveUserAwards()
+          checkAwardTier('constitutionExplorer', 'explorerAwards');
+          // No need for an additional saveUserAwards() here as incrementAwardProgress handles it.
+        }
         
         // Check for first amendment special award
         if (!userAwards.progress.firstAmendment.unlocked) {
