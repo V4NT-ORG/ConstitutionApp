@@ -9,3 +9,6 @@
 @media(max-width:768px){
   .container{width:95%;padding:25px;}
 }
+@media(max-width:480px){
+  .container{width:98%;padding:15px;}
+}
