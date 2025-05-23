@@ -1,4 +1,7 @@
 /* generic body copy */
+html, body{
+  overflow-x:hidden;
+}
 body{
   font-family:'Source Sans Pro',sans-serif;
   background:var(--light-bg);

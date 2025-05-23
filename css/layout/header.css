@@ -20,18 +20,3 @@
   .header h1{font-size:2rem;}
 }
 
-/* little user/profile icon */
-.profile-icon{
-  position:absolute;
-  top:20px;right:20px;
-  font-size:24px;
-  color:var(--light-text);
-  background:rgba(255,255,255,.2);
-  padding:10px;
-  border-radius:50%;
-  transition:var(--transition);
-}
-.profile-icon:hover{
-  transform:scale(1.1);
-  background:rgba(255,255,255,.3);
-}

@@ -1,153 +1,117 @@
-# CLAUDE.md
+# Constitution Explorer
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+A client-side web application for exploring and learning about the United States Constitution and its amendments. Built with vanilla HTML, CSS, and JavaScript - no frameworks required.
 
-## Project Overview
+## Features
 
-The Constitution Explorer is a client-side web application for exploring and learning about the United States Constitution and its amendments. It's built with HTML, CSS, and JavaScript without any framework dependencies.
+- **Interactive Learning**: Explore amendments through quizzes, scenarios, and reflection prompts
+- **Progress Tracking**: XP system with awards and badges to track learning progress
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Dynamic Content**: Amendment content loads dynamically based on URL parameters
+- **Modular CSS**: Organized, maintainable stylesheets
 
-## File Structure
+## Getting Started
 
-- **index.html**: Main landing page with amendment cards for navigation
-- **template.html**: Template for displaying individual amendment details
-- **script.js**: Main application logic for rendering amendment content and handling interactions
-- **loader.js**: Logic for loading specific amendment data based on URL parameters
-- **amendment_data.js**: Data for each amendment (text, descriptions, quizzes, etc.)
-- **styles.css**: Main stylesheet that imports all CSS modules
-- **css/**: Directory containing modular CSS files:
-  - **base/**: Core CSS settings (variables, typography)
-  - **components/**: Styles for specific UI components
-  - **layout/**: Structural layout styles
-  - **utilities/**: Helper classes and animations
-- **images/**: Directory containing amendment-related images
+### Running Locally
 
-## Development Workflow
+This is a static web application that can be run in several ways:
 
-### Running the Application
+**Option 1: Direct File Access**
+Simply open `index.html` in your web browser.
 
-This is a static web application, so you can:
+**Option 2: Local Server (Recommended)**
+```bash
+# Using Python 3
+python -m http.server
 
-1. Open `index.html` directly in a web browser to view the application
-2. Use a local server for development (recommended):
-   ```bash
-   # Using Python 3
-   python -m http.server
-   
-   # Using Node.js http-server package
-   npx http-server
-   ```
+# Using Node.js http-server
+npx http-server
 
-### Application Flow
-
-1. The user starts at the home page (`index.html`) which lists amendments to explore
-2. When a user selects an amendment, they are directed to `template.html` with an amendment parameter (e.g., `template.html?amendment=1`)
-3. `loader.js` reads this parameter and sets the appropriate data attribute on the body
-4. `script.js` uses this data attribute to load the corresponding data from `amendment_data.js`
-5. The amendment content is then populated in the template, including interactive elements
-
-## Key Features
-
-- **Dynamic Content Loading**: Amendments are loaded dynamically based on URL parameters
-- **Interactive Elements**: 
-  - Quizzes with multiple-choice questions
-  - Scenario challenges for applying constitutional knowledge
-  - Reflection prompts for deeper thinking
-- **XP and Progress Tracking**: User progress is stored in localStorage
-- **Responsive Design**: Works on different screen sizes
-
-## Data Structure
-
-The `amendmentData` object in `amendment_data.js` follows this structure:
-
-```javascript
-{
-  amendmentNumber: {
-    title: "Amendment Title",
-    numberRoman: "Roman numeral",
-    numberOrdinal: "Ordinal text",
-    subtitle: "Subtitle text",
-    imageFileName: "image.jpg", // Optional
-    story: "Narrative text about the amendment",
-    description: ["Array of paragraphs"],
-    fullText: "The exact text of the amendment",
-    plainSummary: "HTML structure with collapsible sections",
-    keyPoints: [
-      { id: "point-id", title: "Point Title", text: "Point content" }
-    ],
-    quiz: {
-      title: "Quiz Title",
-      questions: [
-        {
-          q: "question-id",
-          text: "Question text",
-          options: [
-            { value: "a", text: "Option A" },
-            // more options...
-          ],
-          answer: "correct-option-value"
-        }
-        // more questions...
-      ]
-    },
-    navigation: {
-      prev: { text: "Prev link text", link: "prev-url" },
-      next: { text: "Next link text", link: "next-url" }
-    }
-  }
-  // More amendments...
-}
+# Using PHP
+php -S localhost:8000
 ```
 
-## When Adding New Amendments
+Then navigate to `http://localhost:8000` in your browser.
 
-When adding a new amendment:
+## Project Structure
 
-1. Create a new entry in `amendment_data.js` with the appropriate structure
-2. Ensure all required fields are populated (title, description, fullText, plainSummary)
-3. Add any images to the `images/` directory
-4. Update navigation links in adjacent amendments
-5. Add a card to the home page in `index.html` if necessary
+```
+├── index.html              # Main landing page
+├── amendments.html         # Amendment detail template
+├── script.js              # Main application logic
+├── loader.js              # Amendment data loading
+├── amendment_data.js       # Amendment content and data
+├── css/                   # Modular stylesheets
+│   ├── main.css          # Main CSS entry point
+│   ├── base/             # Core styles (variables, typography)
+│   ├── components/       # UI component styles
+│   ├── layout/           # Page layout styles
+│   └── utilities/        # Helper classes and animations
+├── js/                   # JavaScript modules
+│   └── awards.js         # Awards and XP system
+└── images/               # Amendment-related images
+```
 
-## XP System
+## How It Works
 
-The application tracks user progress through an XP (experience points) system:
+1. **Home Page**: Users start at `index.html` with amendment cards
+2. **Amendment Selection**: Clicking an amendment navigates to `amendments.html?amendment=N`
+3. **Dynamic Loading**: `loader.js` reads the URL parameter and loads appropriate data
+4. **Content Rendering**: `script.js` populates the template with amendment content
+5. **Progress Tracking**: User interactions are tracked and stored in localStorage
 
-- Each amendment has activities worth points (quizzes, scenarios)
-- Progress is stored in `localStorage` using these keys:
-  - `totalUserXP`: Total XP earned
-  - `userActionScores`: Object tracking specific activities completed
-  - `amendmentStatus`: Object tracking completion status of each amendment
+## XP and Awards System
 
-## CSS Structure
+The application includes a gamified learning experience:
 
-The CSS is organized in a modular way:
+- **XP Points**: Earned by completing quizzes and scenarios
+- **Awards**: Unlocked based on progress milestones
+- **Progress Persistence**: All progress saved in browser localStorage
 
-- **main.css**: Main entry point that imports all other CSS modules
-- **base/**: Foundational styles
-  - **variables.css**: Global CSS variables for colors, spacing, etc.
-  - **typography.css**: Text styles, fonts, and headings
-- **components/**: Individual UI elements
-  - **badges.css**: Badge styling for labels and tags
-  - **buttons.css**: Button variations and states
-  - **cards.css**: Card components for amendments
-  - **collapsibles.css**: Expandable/collapsible sections
-  - **fun-fact.css**: Styling for fun fact boxes
-  - **infographic.css**: Visual data presentation components
-  - **navigation.css**: Nav menus and pagination
-  - **progress-bar.css**: XP and progress indicators
-  - **quiz.css**: Quiz interface elements
-- **layout/**: Page structure
-  - **container.css**: Content containers and wrappers
-  - **header.css**: Page header styling
-- **utilities/**: Helper styles
-  - **animations.css**: CSS animations and transitions
-  - **helpers.css**: Utility classes for common styling needs
+Storage keys:
+- `totalUserXP`: Total experience points
+- `userActionScores`: Completed activities tracking
+- `amendmentStatus`: Amendment completion status
 
-When adding new styles:
-1. Place them in the appropriate existing module
-2. Create a new module file if the component is distinct enough
-3. Import any new module files in main.css
+## Development
 
-## Notes
+### Adding New Amendments
 
-Only read the necessary CSS files when updating code. Also never read amendment_data.js, you have the structure of it in this file.
+1. Add entry to `amendment_data.js` with required structure
+2. Include any images in the `images/` directory
+3. Update navigation links in adjacent amendments
+4. Add amendment card to home page if needed
+
+### CSS Development
+
+The CSS is organized modularly:
+- Place new styles in appropriate existing modules
+- Create new module files for distinct components
+- Import new modules in `main.css`
+
+### Key Features Implementation
+
+- **Quizzes**: Multiple-choice questions with immediate feedback
+- **Scenarios**: Real-world application challenges
+- **Collapsible Sections**: Expandable content areas
+- **Progress Bars**: Visual XP and completion indicators
+
+## Browser Compatibility
+
+Works in all modern browsers that support:
+- ES6 JavaScript features
+- CSS Grid and Flexbox
+- localStorage API
+
+## Contributing
+
+This is an educational project focused on constitutional learning. When contributing:
+
+1. Maintain the vanilla JavaScript approach (no frameworks)
+2. Follow existing code organization patterns
+3. Ensure responsive design on all screen sizes
+4. Test thoroughly across different browsers
+
+## License
+
+Educational use project for learning about the U.S. Constitution.

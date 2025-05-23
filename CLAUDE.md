@@ -9,16 +9,18 @@ The Constitution Explorer is a client-side web application for exploring and lea
 ## File Structure
 
 - **index.html**: Main landing page with amendment cards for navigation
-- **template.html**: Template for displaying individual amendment details
+- **amendments.html**: Template for displaying individual amendment details
 - **script.js**: Main application logic for rendering amendment content and handling interactions
 - **loader.js**: Logic for loading specific amendment data based on URL parameters
 - **amendment_data.js**: Data for each amendment (text, descriptions, quizzes, etc.)
-- **styles.css**: Main stylesheet that imports all CSS modules
 - **css/**: Directory containing modular CSS files:
+  - **main.css**: Main stylesheet that imports all CSS modules
   - **base/**: Core CSS settings (variables, typography)
-  - **components/**: Styles for specific UI components
+  - **components/**: Styles for specific UI components (including awards.css)
   - **layout/**: Structural layout styles
   - **utilities/**: Helper classes and animations
+- **js/**: Directory containing JavaScript modules:
+  - **awards.js**: Awards system and XP tracking functionality
 - **images/**: Directory containing amendment-related images
 
 ## Development Workflow
@@ -40,10 +42,11 @@ This is a static web application, so you can:
 ### Application Flow
 
 1. The user starts at the home page (`index.html`) which lists amendments to explore
-2. When a user selects an amendment, they are directed to `template.html` with an amendment parameter (e.g., `template.html?amendment=1`)
+2. When a user selects an amendment, they are directed to `amendments.html` with an amendment parameter (e.g., `amendments.html?amendment=1`)
 3. `loader.js` reads this parameter and sets the appropriate data attribute on the body
 4. `script.js` uses this data attribute to load the corresponding data from `amendment_data.js`
 5. The amendment content is then populated in the template, including interactive elements
+6. `awards.js` handles XP tracking, progress calculation, and award unlocking based on user interactions
 
 ## Key Features
 
@@ -52,7 +55,8 @@ This is a static web application, so you can:
   - Quizzes with multiple-choice questions
   - Scenario challenges for applying constitutional knowledge
   - Reflection prompts for deeper thinking
-- **XP and Progress Tracking**: User progress is stored in localStorage
+- **XP and Progress Tracking**: User progress is stored in localStorage with awards system
+- **Awards System**: Badges and achievements unlock based on learning milestones
 - **Responsive Design**: Works on different screen sizes
 
 ## Data Structure
@@ -108,15 +112,21 @@ When adding a new amendment:
 4. Update navigation links in adjacent amendments
 5. Add a card to the home page in `index.html` if necessary
 
-## XP System
+## XP and Awards System
 
-The application tracks user progress through an XP (experience points) system:
+The application tracks user progress through an XP (experience points) and awards system:
 
 - Each amendment has activities worth points (quizzes, scenarios)
+- Awards are unlocked based on XP milestones and learning achievements
 - Progress is stored in `localStorage` using these keys:
   - `totalUserXP`: Total XP earned
   - `userActionScores`: Object tracking specific activities completed
   - `amendmentStatus`: Object tracking completion status of each amendment
+- Awards system managed by `js/awards.js` with functions for:
+  - XP calculation and tracking
+  - Award eligibility checking
+  - Progress bar updates
+  - Badge display and unlocking
 
 ## CSS Structure
 
@@ -127,6 +137,7 @@ The CSS is organized in a modular way:
   - **variables.css**: Global CSS variables for colors, spacing, etc.
   - **typography.css**: Text styles, fonts, and headings
 - **components/**: Individual UI elements
+  - **awards.css**: Awards system, badges, and achievement styling
   - **badges.css**: Badge styling for labels and tags
   - **buttons.css**: Button variations and states
   - **cards.css**: Card components for amendments
