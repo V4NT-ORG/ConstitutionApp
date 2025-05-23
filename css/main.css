@@ -19,5 +19,6 @@
 @import url('components/awards.css');
 
 /* ==== Utilities ==== */
-@import url('utilities/animations.css');
-@import url('utilities/helpers.css');
+/* Animations */
+@keyframes fadeIn  {from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeOut {from{opacity:1;}to{opacity:0;}}

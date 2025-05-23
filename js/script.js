@@ -3,15 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Example: <body data-amendment="1">
     const amendmentNumber = parseInt(document.body.dataset.amendment, 10);
     
-    // Load saved XP and progress from localStorage
-    let totalXP = parseInt(localStorage.getItem('totalUserXP')) || 0;
-    let actionScores = JSON.parse(localStorage.getItem('userActionScores')) || {};
-    
-    // Track amendment completion status
-    let amendmentStatus = JSON.parse(localStorage.getItem('amendmentStatus')) || {};
-    const AMENDMENT_XP = 50; // Total XP possible per amendment
-    const COMPLETED_PERCENTAGE = 0.8; // 80% for completed
-    const MASTERED_PERCENTAGE = 1.0; // 100% for mastered
+    // Sync with global variables
+    totalXP = parseInt(localStorage.getItem('totalUserXP')) || 0;
+    actionScores = JSON.parse(localStorage.getItem('userActionScores')) || {};
+    amendmentStatus = JSON.parse(localStorage.getItem('amendmentStatus')) || {};
     
     
     // Add CSS for amendment status indicators
@@ -47,14 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function setHTMLContent(id, html) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.innerHTML = html;
-        } else {
-            console.warn(`Element with ID '${id}' not found.`);
-        }
-    }
 
     function setButtonAttributes(id, text, link) {
         const button = document.getElementById(id);
@@ -71,29 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function createSection(title, content, container) {
-        // Skip if content is empty/null/undefined or an empty string
-        if (!content) return; 
-        if (typeof content === 'string' && content.trim() === '') return;
-        if (Array.isArray(content) && content.length === 0) return;
-        
-        const titleElement = document.createElement('h3');
-        titleElement.textContent = title;
-        container.appendChild(titleElement);
-        
-        if (typeof content === 'string') {
-            const contentElement = document.createElement('div');
-            contentElement.innerHTML = content;
-            container.appendChild(contentElement);
-        } else if (typeof content === 'object' && !(content instanceof Element)) {
-            // For non-DOM object content, we don't append anything here
-            // The specific section handler will deal with it
-            console.log(`Section ${title} has object content, handled separately`);
-        } else if (content instanceof Element) {
-            // For DOM Elements
-            container.appendChild(content);
-        }
-    }
 
     // --- Populate Header ---
     document.title = `Bill of Rights Explorer - ${data.numberOrdinal} Amendment`;
@@ -409,45 +373,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- Global Interaction Logic (moved from original HTML) ---
 
-// Store action scores to track XP and allow redoing for full credit
-// Load action scores from localStorage or initialize as empty object
-let actionScores = {};
-try {
-    const storedActionScores = localStorage.getItem('userActionScores');
-    if (storedActionScores) {
-        actionScores = JSON.parse(storedActionScores);
-    }
-} catch (error) {
-    console.error('Error loading action scores from localStorage:', error);
-    // Continue with empty actionScores if there's an error
-}
-
-// Load XP from localStorage or initialize to 0
-let storedXP = localStorage.getItem('totalUserXP');
-let totalXP = storedXP ? parseInt(storedXP, 10) : 0;
+// Global variables for compatibility with functions outside DOMContentLoaded
+let actionScores = JSON.parse(localStorage.getItem('userActionScores')) || {};
+let totalXP = parseInt(localStorage.getItem('totalUserXP')) || 0;
+let amendmentStatus = JSON.parse(localStorage.getItem('amendmentStatus')) || {};
 
 
-function showInfo(elementId, text) {
-    const infoElement = document.getElementById(elementId);
-    if (!infoElement) return;
 
-    // Toggle display
-    if (infoElement.style.display === 'block' && infoElement.innerHTML === text) {
-        infoElement.style.display = 'none';
-        infoElement.innerHTML = ''; // Clear content when hiding
-    } else {
-        // Hide all other info displays first
-        document.querySelectorAll('.info-display').forEach(el => {
-            el.style.display = 'none';
-            el.innerHTML = ''; // Clear content
-        });
-
-        infoElement.innerHTML = text;
-        infoElement.style.display = 'block';
-        // Scroll into view if needed
-        infoElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-}
 
 // Function to integrate with the award system
 function integrateAwardSystem() {
@@ -607,7 +539,12 @@ function addXP(amount, actionId = null) {
     }
 
     // Get the maximum possible XP for this action
-    const maxXP = getMaxXPForAction(actionId); // Use the base actionId
+    const maxXPMap = {
+        'quiz-completion': 30,
+        'scenario-completion': 30,
+        'module-completion': 20
+    };
+    const maxXP = maxXPMap[actionId] || 0;
 
     // If this is a tracked action, check if we're improving our score
     const previousScore = actionScores[fullActionId] || 0;
@@ -723,15 +660,6 @@ function updateXPDisplay(additionalXP) {
 
 }
 
-function getMaxXPForAction(actionId) {
-    // Define maximum possible XP for each base action type
-    const maxXPMap = {
-        'quiz-completion': 30, // Example: 3 questions × 10 XP
-        'scenario-completion': 30,
-        'module-completion': 20 // For completion button
-    };
-    return maxXPMap[actionId] || 0;
-}
 
 function showRetryMessage(actionId, earned, max) {
     // Remove any existing retry message first
@@ -757,76 +685,6 @@ function showRetryMessage(actionId, earned, max) {
 }
 
 
-function completeModule() {
-    const amendmentNumber = parseInt(document.body.dataset.amendment, 10);
-    const actionId = `module-completion-${amendmentNumber}`;
-    const maxXP = getMaxXPForAction('module-completion');
-
-    // Calculate amendment progress - how much XP did they earn out of total possible?
-    let earnedXP = 0;
-    // Sum up all XP earned for this amendment
-    Object.keys(actionScores).forEach(key => {
-        if (key.endsWith(`-${amendmentNumber}`)) {
-            earnedXP += actionScores[key];
-        }
-    });
-    
-    const earnedPercentage = Math.min(earnedXP / AMENDMENT_XP, 1);
-    let amendmentPreviousStatus = amendmentStatus[amendmentNumber] || 'incomplete';
-    let newStatus = 'incomplete';
-    let xpToAdd = 0;
-    
-    // Mark as completed if 80% or more XP earned
-    if (earnedPercentage >= COMPLETED_PERCENTAGE && earnedPercentage < MASTERED_PERCENTAGE) {
-        newStatus = 'completed';
-        // Award 80% XP for completed if not already earned
-        if (amendmentPreviousStatus === 'incomplete') {
-            xpToAdd = Math.floor(AMENDMENT_XP * COMPLETED_PERCENTAGE);
-            alert(`Amendment ${amendmentNumber} completed! You earned ${xpToAdd} XP.`);
-        }
-    } 
-    // Mark as mastered if 100% XP earned
-    else if (earnedPercentage >= MASTERED_PERCENTAGE) {
-        newStatus = 'mastered';
-        // Award remaining XP if previously only completed
-        if (amendmentPreviousStatus === 'completed') {
-            xpToAdd = Math.floor(AMENDMENT_XP * (MASTERED_PERCENTAGE - COMPLETED_PERCENTAGE));
-            alert(`Amendment ${amendmentNumber} mastered! You earned an additional ${xpToAdd} XP.`);
-        } 
-        // Award full XP if not previously completed
-        else if (amendmentPreviousStatus === 'incomplete') {
-            xpToAdd = AMENDMENT_XP;
-            alert(`Amendment ${amendmentNumber} mastered! You earned ${xpToAdd} XP.`);
-        }
-    }
-    
-    // Update amendment status if changed
-    if (newStatus !== amendmentPreviousStatus) {
-        amendmentStatus[amendmentNumber] = newStatus;
-        localStorage.setItem('amendmentStatus', JSON.stringify(amendmentStatus));
-        
-        // Add XP for the new status
-        if (xpToAdd > 0) {
-            updateXPDisplay(xpToAdd);
-        }
-        
-        }
-
-    // Check if already completed to prevent multiple XP
-    if (!actionScores[actionId] || actionScores[actionId] < maxXP) {
-         addXP(maxXP, 'module-completion'); // Use base action ID for tracking
-    } else {
-         alert(`You have already completed the Amendment ${amendmentNumber} module.`);
-    }
-
-    // Optional: Navigate to the next module if applicable
-    if (amendmentData && amendmentData[amendmentNumber] && amendmentData[amendmentNumber].navigation.next.link !== '#') {
-        // Maybe add a small delay before navigating
-        // setTimeout(() => {
-        //     window.location.href = amendmentData[amendmentNumber].navigation.next.link;
-        // }, 1000);
-    }
-}
 
 // --- Initialize XP Display on Load ---
 // Call updateXPDisplay with 0 additional XP to render the loaded totalXP value
