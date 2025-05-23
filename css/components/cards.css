@@ -112,24 +112,6 @@
   -webkit-box-orient:vertical;
 }
 
-@media(max-width:480px){
-  .amendment-card-home{
-    height:160px;padding:12px;
-  }
-  .amendment-card-home h2{
-    font-size:1.1rem;margin-bottom:3px;
-  }
-  .amendment-card-home p{
-    font-size:11px;line-height:1.2;
-    -webkit-line-clamp:2;line-clamp:2;
-  }
-  .amendment-icon{margin-bottom:5px;}
-  .amendment-icon i{
-    width:35px;height:35px;line-height:35px;
-    font-size:18px;
-  }
-}
-
 .amendment-icon{display:flex;justify-content:center;margin:0 auto 8px;}
 .amendment-icon i{
   width:45px;height:45px;line-height:45px;
