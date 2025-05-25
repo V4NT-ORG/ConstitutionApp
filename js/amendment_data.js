@@ -5,7 +5,7 @@ const amendmentData = {
     numberOrdinal: "First",
     subtitle: "What is the First Amendment?",
     imageFileName: "amendment1.jpg", // Added image file name
-    story: "At school, Brandon started a podcast where students could talk about anything from favorite books to different takes on school rules. The principal didn't like it and tried to shut it down. But Brandon knew her rights, the First Amendment was on her side. Soon, his friends joined in, rallying peacefully for change. Turns out, knowing your rights makes sure your voice is heard.",
+    story: "At school, Maya started a podcast where students could talk about anything from favorite books to different takes on school rules. The principal didn't like it and tried to shut it down. But Maya knew her rights, the First Amendment was on her side. Soon, his friends joined in, rallying peacefully for change. Turns out, knowing your rights makes sure your voice is heard.",
     description: [
       "The First Amendment to the U.S. Constitution is one of the most important parts of American democracy. It guarantees five powerful freedoms that let people speak out, believe what they want, and challenge the government. These rights are the foundation of a society where ideas can be shared, debated, and defended."
     ],
