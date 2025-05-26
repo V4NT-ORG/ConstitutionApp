@@ -1,0 +1,27 @@
+/* Styles for amendment status indicators on home page cards */
+.amendment-card-home {
+    position: relative; /* Ensures status indicator is positioned relative to the card */
+}
+
+.amendment-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.amendment-status.completed {
+    background-color: rgba(42, 157, 143, 0.2); /* Teal/Green background */
+    color: #2a9d8f; /* Teal/Green text/icon */
+}
+
+.amendment-status.mastered {
+    background-color: rgba(52, 152, 219, 0.2); /* Light blue background */
+    color: #3498db; /* Darker blue text/icon */
+}
