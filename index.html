@@ -222,8 +222,8 @@
 
     <script src="js/awards.js"></script>
     <script>
-        // Simple script to initialize the progress bar based on localStorage
-        document.addEventListener('DOMContentLoaded', function() {
+        // Function to update the display based on current localStorage data
+        function updateDisplay() {
             // Get total XP from localStorage (if it exists)
             const totalXP = localStorage.getItem('totalUserXP') || 0;
             
@@ -243,7 +243,20 @@
             if (window.awardsSystem && window.awardsSystem.renderAwardsSection) {
                 window.awardsSystem.renderAwardsSection();
             }
+        }
+
+        // Simple script to initialize the progress bar based on localStorage
+        document.addEventListener('DOMContentLoaded', updateDisplay);
+        
+        // Also update when the page becomes visible (when navigating back)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                updateDisplay();
+            }
         });
+        
+        // Update when focus returns to the window
+        window.addEventListener('focus', updateDisplay);
     </script>
 </body>
 </html>
