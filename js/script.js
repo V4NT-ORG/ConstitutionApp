@@ -9,9 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     amendmentStatus = JSON.parse(localStorage.getItem('amendmentStatus')) || {};
     
     
-    // Add CSS for amendment status indicators
-    addStatusStyles();
-    
     // Update amendment status indicators on home page
     updateAmendmentStatusIndicators();
     
@@ -378,6 +375,10 @@ let actionScores = JSON.parse(localStorage.getItem('userActionScores')) || {};
 let totalXP = parseInt(localStorage.getItem('totalUserXP')) || 0;
 let amendmentStatus = JSON.parse(localStorage.getItem('amendmentStatus')) || {};
 
+const AMENDMENT_XP = 50;
+const COMPLETED_PERCENTAGE = 0.80;
+const MASTERED_PERCENTAGE = 1.00;
+
 
 
 
@@ -722,40 +723,13 @@ function updateAmendmentStatusIndicators() {
             // Different icon and text based on status
             if (status === 'completed') {
                 statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> <span>Completed</span>';
-                statusDiv.style.backgroundColor = 'rgba(42, 157, 143, 0.2)';
-                statusDiv.style.color = '#2a9d8f';
             } else if (status === 'mastered') {
                 statusDiv.innerHTML = '<i class="fas fa-star"></i> <span>Mastered</span>';
-                statusDiv.style.backgroundColor = 'rgba(233, 196, 106, 0.2)';
-                statusDiv.style.color = '#e9c46a';
             }
             
             card.appendChild(statusDiv);
         }
     });
-}
-
-// Add CSS for amendment status indicators
-function addStatusStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-        .amendment-status {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .amendment-card-home {
-            position: relative;
-        }
-    `;
-    document.head.appendChild(style);
 }
 
 // Save quiz answers to localStorage
