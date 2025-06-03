@@ -149,7 +149,6 @@
         
     </div>
 
-    <script src="js/home.js"></script>
     <script src="js/awards.js"></script>
     <script>
         // Function to update the display based on current localStorage data
@@ -172,11 +171,6 @@
             // Render awards section if the awards system is loaded
             if (window.awardsSystem && window.awardsSystem.renderAwardsSection) {
                 window.awardsSystem.renderAwardsSection();
-            }
-
-            // Update amendment status indicators if available
-            if (typeof updateAmendmentStatusIndicators === 'function') {
-                updateAmendmentStatusIndicators();
             }
         }
 
