@@ -45,8 +45,7 @@ Then navigate to `http://localhost:8000` in your browser.
 │   ├── main.css          # Main CSS entry point
 │   ├── base/             # Core styles (variables, typography)
 │   ├── components/       # UI component styles
-│   ├── layout/           # Page layout styles
-│   └── utilities/        # Helper classes and animations
+│   └── layout/           # Page layout styles
 ├── js/                   # JavaScript modules
 │   └── awards.js         # Awards and XP system
 └── images/               # Amendment-related images
@@ -88,6 +87,7 @@ The CSS is organized modularly:
 - Place new styles in appropriate existing modules
 - Create new module files for distinct components
 - Import new modules in `main.css`
+- Existing directories include `css/base`, `css/components`, and `css/layout`
 
 ### Key Features Implementation
 
