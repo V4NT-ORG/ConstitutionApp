@@ -54,7 +54,7 @@ Then navigate to `http://localhost:8000` in your browser.
 ## How It Works
 
 1. **Home Page**: Users start at `index.html` with amendment cards
-2. **Amendment Selection**: Clicking an amendment navigates to `amendments.html?amendment=N`
+2. **Amendment Selection**: Clicking a card opens `amendments.html?amendment=N`
 3. **Dynamic Loading**: `loader.js` reads the URL parameter and loads appropriate data
 4. **Content Rendering**: `script.js` populates the template with amendment content
 5. **Progress Tracking**: User interactions are tracked and stored in localStorage
