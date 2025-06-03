@@ -20,7 +20,7 @@ function runLoader(query) {
 
   global.document = documentStub;
   global.window = { location: { search: query } };
-  global.amendmentData = { 5: { title: 'Fifth Amendment' } };
+  global.amendmentData = { 1: { title: 'First' }, 5: { title: 'Fifth Amendment' } };
 
   delete require.cache[require.resolve('../js/loader.js')];
   require('../js/loader.js');
@@ -31,4 +31,9 @@ function runLoader(query) {
 module.exports.testSetsAmendmentAttribute = function() {
   const result = runLoader('?amendment=5');
   assert.strictEqual(result, 5);
+};
+
+module.exports.testDefaultsToOne = function() {
+  const result = runLoader('');
+  assert.strictEqual(result, 1);
 };
