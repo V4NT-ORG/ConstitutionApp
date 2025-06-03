@@ -1,0 +1,13 @@
+{
+  "name": "constitutionapp",
+  "version": "1.0.0",
+  "description": "A client-side web application for exploring and learning about the United States Constitution and its amendments. Built with vanilla HTML, CSS, and JavaScript - no frameworks required.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests/runTests.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
