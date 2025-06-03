@@ -96,6 +96,15 @@ The CSS is organized modularly:
 - **Collapsible Sections**: Expandable content areas
 - **Progress Bars**: Visual XP and completion indicators
 
+### Running Tests
+
+Tests use a small Node-based runner located in the `tests/` directory. Run all
+tests with:
+
+```bash
+npm test
+```
+
 ## Browser Compatibility
 
 Works in all modern browsers that support:
