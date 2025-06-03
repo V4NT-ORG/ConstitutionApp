@@ -465,14 +465,17 @@ function checkQuiz() {
     if (window.awardsSystem && (score > previousScore || !actionScores[actionId])) {
         // If this is an improvement, only count the net new correct answers
         const correctCount = !actionScores[actionId] ? score / 10 : (score - previousScore) / 10;
-        
+
         window.awardsSystem.triggerAwardEvent('quizCompleted', amendmentNumber, {
-            correctCount: correctCount, 
+            correctCount: correctCount,
             totalQuestions: totalQuestions,
             isPerfect: score === maxScore,
             isImprovement: true
         });
     }
+
+    // Update completion status based on earned XP
+    checkAmendmentStatus(amendmentNumber);
 }
 
 function checkScenario(selectedAnswer) {
@@ -526,6 +529,9 @@ function checkScenario(selectedAnswer) {
             isCorrect: true
         });
     }
+
+    // Update completion status based on earned XP
+    checkAmendmentStatus(amendmentNumber);
 }
 
 
