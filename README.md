@@ -1,6 +1,6 @@
 # Constitution Explorer
 
-A client-side web application for exploring and learning about the United States Constitution and its amendments. Built with vanilla HTML, CSS, and JavaScript - no frameworks required.
+A client-side web application for exploring and learning about the United States Constitution and its amendments for U.S Citizens. Built with vanilla HTML, CSS, and JavaScript - no frameworks required.
 
 ## Features
 
@@ -123,4 +123,4 @@ This is an educational project focused on constitutional learning. When contribu
 
 ## License
 
-Educational use project for learning about the U.S. Constitution.
+This project is licensed under AGPL v3.0
